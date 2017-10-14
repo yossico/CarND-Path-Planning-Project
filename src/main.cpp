@@ -303,8 +303,8 @@ int main() {
 				double shift_x = ptsx[i] - ref_x;
 				double shift_y = ptsx[i] - ref_x;
 
-				ptsx[i] = shift_x*cos(-ref_yaw) - shift_y*sin(-ref_yaw);
-				ptsy[i] = shift_x*sin(-ref_yaw) + shift_y*cos(-ref_yaw);
+				ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);
+				ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);
 			}
 
 			spline s;
