@@ -235,7 +235,7 @@ int main() {
           	double end_path_s = j[1]["end_path_s"];
           	double end_path_d = j[1]["end_path_d"];
 			// Sensor Fusion Data, a list of all other cars on the same side of the road.
-          	auto sensor_fusion = j[1]["sensor_fusion"];
+          	vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
 
 			int prev_size = previous_path_x.size();
 
@@ -247,6 +247,22 @@ int main() {
 			bool too_close = false;
 			for (int i = 0; i < sensor_fusion.size(); i++)
 			{
+				float d = sensor_fusion[i][6];
+				if ((d < 2 + 4 * lane) && (d > 2 + 4 * lane - 2))
+				{
+					double vx = sensor_fusion[i][3];
+					double vy = sensor_fusion[i][4];
+					double check_car_s = sensor_fusion[i][5];
+					double check_speed = sqrt(vx*vx + vy*vy);
+					
+					check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
+
+					if ((check_car_s>car_s) && (check_car_s-car_s<30))
+					{
+						//do some logic here to prevent collision
+					}
+
+				}
 
 			}
 
