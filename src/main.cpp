@@ -20,7 +20,7 @@ using json = nlohmann::json;
 constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
-const double LANEWIDTH 4;
+const double LANEWIDTH = 4;
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -165,7 +165,7 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 int main() {
   uWS::Hub h;
 
-  double lane = 1.0; //points to teh current lane, 1 is the middle
+  
   double ref_velocity = 49;
 
   // Load up map values for waypoint's x,y,s and d normalized normal vectors
@@ -286,6 +286,7 @@ int main() {
 				next_y_vals.push_back(xy[1]);
 			}*/
 			//create waypoints vector. must fill this to make the car move (walkthrough)
+			double lane = 1.0; //points to teh current lane, 1 is the middle
 			vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + .5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 			vector <double> next_wp1 = getXY(car_s + 60, LANEWIDTH*(lane + .5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 			vector <double> next_wp2 = getXY(car_s + 90, LANEWIDTH*(lane + .5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
