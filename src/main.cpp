@@ -260,12 +260,22 @@ int main() {
 					if ((check_car_s>car_s) && (check_car_s-car_s<30))//if the car is ahead
 					{
 						//do some logic here to prevent collision
-						ref_velocity = 25;
+						too_close =true;
 					}
 
 				}
 
 			}
+			if (too_close)
+			{
+				ref_velocity -= 0.224;
+			}
+			else if (ref_velocity < 49)
+			{
+				ref_velocity += 0.224;
+			}
+
+
 
 			vector<double> ptsx;
 			vector<double> ptsy;
@@ -313,7 +323,6 @@ int main() {
 				next_y_vals.push_back(xy[1]);
 			}*/
 			//create waypoints vector. must fill this to make the car move (walkthrough)
-			double lane = 1.0; //points to teh current lane, 1 is the middle
 			vector <double> next_wp0 = getXY(car_s + 30, (LANEWIDTH+2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 			vector <double> next_wp1 = getXY(car_s + 60, (LANEWIDTH+2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 			vector <double> next_wp2 = getXY(car_s + 90, (LANEWIDTH+2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
