@@ -257,9 +257,10 @@ int main() {
 					
 					check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
 
-					if ((check_car_s>car_s) && (check_car_s-car_s<30))
+					if ((check_car_s>car_s) && (check_car_s-car_s<30))//if the car is ahead
 					{
 						//do some logic here to prevent collision
+						ref_velocity = 25;
 					}
 
 				}
@@ -313,9 +314,9 @@ int main() {
 			}*/
 			//create waypoints vector. must fill this to make the car move (walkthrough)
 			double lane = 1.0; //points to teh current lane, 1 is the middle
-			vector <double> next_wp0 = getXY(car_s + 30, (LANEWIDTH+0.5)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-			vector <double> next_wp1 = getXY(car_s + 60, (LANEWIDTH+0.5)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-			vector <double> next_wp2 = getXY(car_s + 90, (LANEWIDTH+0.5)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp0 = getXY(car_s + 30, (LANEWIDTH+2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp1 = getXY(car_s + 60, (LANEWIDTH+2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp2 = getXY(car_s + 90, (LANEWIDTH+2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 			ptsx.push_back(next_wp0[0]);
 			ptsx.push_back(next_wp1[0]);
 			ptsx.push_back(next_wp2[0]);
