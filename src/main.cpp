@@ -244,11 +244,11 @@ int main() {
 			vector<double> ptsy;
 			double ref_x = car_x;
 			double ref_y = car_y;
-			double ref_yow = deg2rad(car_yow);
+			double ref_yaw = deg2rad(car_yaw);
 
-			if (prev_size < 2)  /in case we just started no ref points
+			if (prev_size < 2)  //in case we just started no ref points
 			{
-				double prev_car_x = car_x - cos(car_yow) ;
+				double prev_car_x = car_x - cos(car_yaw) ;
 				double prev_car_y = car_y - sin(car_yaw);
 				
 				ptsx.push_back(prev_car_x);
