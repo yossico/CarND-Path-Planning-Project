@@ -21,6 +21,7 @@ constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
 const double LANEWIDTH = 4;
+double ref_velocity = 49;
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -166,9 +167,7 @@ int main() {
   uWS::Hub h;
 
   
-  double ref_velocity = 49;
-
-  // Load up map values for waypoint's x,y,s and d normalized normal vectors
+ // Load up map values for waypoint's x,y,s and d normalized normal vectors
   vector<double> map_waypoints_x;
   vector<double> map_waypoints_y;
   vector<double> map_waypoints_s;
