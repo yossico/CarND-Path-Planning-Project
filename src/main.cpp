@@ -162,6 +162,7 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 	return {x,y};
 
 }
+double lane = 1.0;
 
 int main() {
   uWS::Hub h;
