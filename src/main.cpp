@@ -286,9 +286,9 @@ int main() {
 			}*/
 			//create waypoints vector. must fill this to make the car move (walkthrough)
 			double lane = 1.0; //points to teh current lane, 1 is the middle
-			vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + .5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-			vector <double> next_wp1 = getXY(car_s + 60, LANEWIDTH*(lane + .5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-			vector <double> next_wp2 = getXY(car_s + 90, LANEWIDTH*(lane + .5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp0 = getXY(car_s + 30, 6, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp1 = getXY(car_s + 60, 6, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp2 = getXY(car_s + 90, 6, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 			ptsx.push_back(next_wp0[0]);
 			ptsx.push_back(next_wp1[0]);
 			ptsx.push_back(next_wp2[0]);
@@ -301,7 +301,7 @@ int main() {
 			for (int i = 0; i < ptsx.size(); i++)
 			{
 				double shift_x = ptsx[i] - ref_x;
-				double shift_y = ptsx[i] - ref_x;
+				double shift_y = ptsy[i] - ref_y;
 
 				ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);
 				ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);
