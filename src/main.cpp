@@ -239,6 +239,17 @@ int main() {
 
 			int prev_size = previous_path_x.size();
 
+			//looking at other cars
+			if (prev_size > 0)
+			{
+				car_s = end_path_s;
+			}
+			bool too_close = false;
+			for (int i = 0; i < sensor_fusion.size(); i++)
+			{
+
+			}
+
 			vector<double> ptsx;
 			vector<double> ptsy;
 			double ref_x = car_x;
@@ -286,9 +297,9 @@ int main() {
 			}*/
 			//create waypoints vector. must fill this to make the car move (walkthrough)
 			double lane = 1.0; //points to teh current lane, 1 is the middle
-			vector <double> next_wp0 = getXY(car_s + 30, 6, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-			vector <double> next_wp1 = getXY(car_s + 60, 6, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-			vector <double> next_wp2 = getXY(car_s + 90, 6, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp0 = getXY(car_s + 30, (LANEWIDTH+0.5)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp1 = getXY(car_s + 60, (LANEWIDTH+0.5)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+			vector <double> next_wp2 = getXY(car_s + 90, (LANEWIDTH+0.5)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 			ptsx.push_back(next_wp0[0]);
 			ptsx.push_back(next_wp1[0]);
 			ptsx.push_back(next_wp2[0]);
