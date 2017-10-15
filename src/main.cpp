@@ -21,7 +21,7 @@ constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
 const double LANEWIDTH = 4;
-double ref_velocity = 49;
+double ref_velocity = 0;
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -256,7 +256,7 @@ int main() {
 					double check_car_s = sensor_fusion[i][5];
 					double check_speed = sqrt(vx*vx + vy*vy);
 					
-					check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
+					//check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
 
 					if ((check_car_s>car_s) && (check_car_s-car_s<30))//if the car is ahead
 					{
