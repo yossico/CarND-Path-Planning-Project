@@ -395,9 +395,9 @@ int main() {
 					}*/
 					-------------------------------------------------------------------------------
 					//create waypoints vector. must fill this to make the car move (walkthrough)
-					vector <double> next_wp0 = getXY(car_s + 30, (LANEWIDTH + 2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector <double> next_wp1 = getXY(car_s + 60, (LANEWIDTH + 2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector <double> next_wp2 = getXY(car_s + 90, (LANEWIDTH + 2)*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*lane + 2, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					vector <double> next_wp1 = getXY(car_s + 60, LANEWIDTH*lane + 2, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					vector <double> next_wp2 = getXY(car_s + 90, LANEWIDTH*lane + 2, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					ptsx.push_back(next_wp0[0]);
 					ptsx.push_back(next_wp1[0]);
 					ptsx.push_back(next_wp2[0]);
