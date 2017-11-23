@@ -278,6 +278,26 @@ int main() {
 				else {
 					right_lane.push_back(vehicle);
 				}
+				float d = sensor_fusion[i][6];
+				if ((d < 2 + LANEWIDTH * lane + 2) && (d > 2 + LANEWIDTH * lane - 2))
+				{
+					double vx = sensor_fusion[i][3];
+					double vy = sensor_fusion[i][4];
+					double check_car_s = sensor_fusion[i][5];
+					double check_speed = sqrt(vx*vx + vy*vy);
+
+					check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
+
+					if ((check_car_s > car_s) && (check_car_s - car_s < 30))//if the car is ahead
+					{
+						//do some logic here to prevent collision
+						too_close = true;
+						if (lane > 0)
+						{
+							lane = 0;
+						}
+					}
+				}
 			}
 			
 			myroad.update_road(left_lane, center_lane, right_lane);
@@ -302,7 +322,7 @@ int main() {
 			}*/
 			
 					
-			if (myPlanner.reducespeed)
+			if (too_close)
 			{
 				ref_velocity -= 0.224;
 			}
