@@ -9,6 +9,9 @@
 #include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
 #include "spline.h"
+#include "defs.h"
+#include "road.h"
+#include "Planner.h"
 
 using namespace std;
 using namespace tk;
@@ -246,33 +249,59 @@ int main() {
 				car_s = end_path_s;
 			}
 			bool too_close = false;
+			
+			vector<Vehicle> left_lane;
+			vector<Vehicle> center_lane;
+			vector<Vehicle> right_lane;
+
 			for (int i = 0; i < sensor_fusion.size(); i++)
 			{
-				float d = sensor_fusion[i][6];
-				if ((d < 2 + LANEWIDTH * lane+2) && (d > 2 + LANEWIDTH * lane - 2))
-				{
-					double vx = sensor_fusion[i][3];
-					double vy = sensor_fusion[i][4];
-					double check_car_s = sensor_fusion[i][5];
-					double check_speed = sqrt(vx*vx + vy*vy);
-					
-					check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
+				int id = sensor_fusion[i][0];
+				double x = sensor_fusion[i][1];
+				double y = sensor_fusion[i][2];
+				double vx = sensor_fusion[i][3];
+				double vy = sensor_fusion[i][4];
+				double s = sensor_fusion[i][5];
+				double d = sensor_fusion[i][6];
+				double v = sqrt(vx*vx + vy*vy);
 
-					if ((check_car_s>car_s) && (check_car_s-car_s<30))//if the car is ahead
-					{
-						//do some logic here to prevent collision
-						too_close =true;
-						if (lane > 0)
-						{
-							lane = 0;
-						}
+				Vehicle vehicle(id, x, y, v, s, d);
+				LANE vehicle_lane = vehicle.lane();
 
-					}
-
+				if (vehicle_lane == LANE::LEFT) {
+					left_lane.push_back(vehicle);
 				}
-
+				else if (vehicle_lane == LANE::CENTER) {
+					center_lane.push_back(vehicle);
+				}
+				else {
+					right_lane.push_back(vehicle);
+				}
 			}
-			if (too_close)
+			Road myroad(left_lane, center_lane, right_lane);
+			Planner myPlanner();
+			myPlanner.DecideState();
+
+			/*bool car_to_left = false, car_to_right = false, car_just_ahead = false;
+			for (Vehicle other_car : other_cars) {
+				double s_diff = fabs(other_car.s - car_s);
+				if (s_diff < FOLLOW_DISTANCE) {
+					cout << "s diff: " << s_diff << endl;
+					double d_diff = other_car.d - car_d;
+					if (d_diff > 2 && d_diff < 6) {
+						car_to_right = true;
+					}
+					else if (d_diff < -2 && d_diff > -6) {
+						car_to_left = true;
+					}
+					else if (d_diff > -2 && d_diff < 2) {
+						car_just_ahead = true;
+					}
+				}
+			}*/
+
+					
+			if (myPlanner.reducespeed)
 			{
 				ref_velocity -= 0.224;
 			}
@@ -280,6 +309,7 @@ int main() {
 			{
 				ref_velocity += 0.224;
 			}
+			lane = myPlanner.newlane;
 
 
 
@@ -446,4 +476,28 @@ vector<double> xy = getXY(next_s, next_d, map_waypoints_s, map_waypoints_x, map_
 
 next_x_vals.push_back(xy[0]);
 next_y_vals.push_back(xy[1]);
+}*/
+
+
+/*float d = sensor_fusion[i][6];
+if ((d < 2 + LANEWIDTH * lane+2) && (d > 2 + LANEWIDTH * lane - 2))
+{
+double vx = sensor_fusion[i][3];
+double vy = sensor_fusion[i][4];
+double check_car_s = sensor_fusion[i][5];
+double check_speed = sqrt(vx*vx + vy*vy);
+
+check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
+
+if ((check_car_s>car_s) && (check_car_s-car_s<30))//if the car is ahead
+{
+//do some logic here to prevent collision
+too_close =true;
+if (lane > 0)
+{
+lane = 0;
+}
+
+}
+
 }*/
