@@ -278,7 +278,7 @@ int main() {
 				else {
 					right_lane.push_back(vehicle);
 				}
-				float d = sensor_fusion[i][6];
+				
 				if ((d < 2 + LANEWIDTH * lane + 2) && (d > 2 + LANEWIDTH * lane - 2))
 				{
 					double vx = sensor_fusion[i][3];
