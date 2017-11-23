@@ -26,7 +26,6 @@ public:
 	bool reducespeed;
 
 
-public:
 	Planner();
 	~Planner() {};
 

@@ -1,6 +1,6 @@
 #include <fstream>
 #include <math.h>
-//#include <uWS/uWS.h>
+#include <uWS/uWS.h>
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -11,7 +11,7 @@
 #include "spline.h"
 #include "defs.h"
 #include "road.h"
-#include "Planner.h"
+#include "planner.h"
 
 using namespace std;
 using namespace tk;
@@ -206,7 +206,7 @@ int main() {
   	map_waypoints_dy.push_back(d_y);
   }
 
-  h.onMessage(&myroad, &myPlanner[&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  h.onMessage([&myroad, &myPlanner, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -300,7 +300,7 @@ int main() {
 					}
 				}
 			}*/
-
+			
 					
 			if (myPlanner.reducespeed)
 			{
