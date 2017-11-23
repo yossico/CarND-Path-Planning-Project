@@ -1,6 +1,6 @@
 #include <fstream>
 #include <math.h>
-#include <uWS/uWS.h>
+//#include <uWS/uWS.h>
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -169,7 +169,8 @@ double lane = 1.0;
 
 int main() {
   uWS::Hub h;
-
+  Road myroad;
+  Planner myPlanner;
   
  // Load up map values for waypoint's x,y,s and d normalized normal vectors
   vector<double> map_waypoints_x;
@@ -205,7 +206,7 @@ int main() {
   	map_waypoints_dy.push_back(d_y);
   }
 
-  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  h.onMessage(&myroad, &myPlanner[&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -278,9 +279,9 @@ int main() {
 					right_lane.push_back(vehicle);
 				}
 			}
-			Road myroad(left_lane, center_lane, right_lane);
-			Planner myPlanner();
-			myPlanner.DecideState();
+			
+			myroad.update_road(left_lane, center_lane, right_lane);
+			myPlanner.DecideState(myroad, lane, car_s);
 
 			/*bool car_to_left = false, car_to_right = false, car_just_ahead = false;
 			for (Vehicle other_car : other_cars) {
@@ -309,8 +310,12 @@ int main() {
 			{
 				ref_velocity += 0.224;
 			}
-			lane = myPlanner.newlane;
-
+			if (myPlanner.newlane == LANE::CENTER)
+				lane = 1;
+			else if (myPlanner.newlane == LANE::LEFT)
+				lane = 0;
+			else if (myPlanner.newlane == LANE::RIGHT)
+				lane = 2;
 
 
 			vector<double> ptsx;

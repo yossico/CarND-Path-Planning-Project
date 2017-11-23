@@ -33,7 +33,7 @@ public:
 	~Vehicle() {};
 
 
-	LANE Getlane();
+	LANE lane();
 	int get_id();
 	double get_x();
 	double get_y();

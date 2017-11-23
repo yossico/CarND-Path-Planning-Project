@@ -51,7 +51,7 @@ bool Road::free_lane(Vehicle& car, LANE lane) {
 }
 
 LANE Road::lane_change_available(Vehicle& car) {
-	LANE car_lane = car.Getlane();
+	LANE car_lane = car.lane();
 	LANE target_lane = car_lane;
 	// if car in center lane check side lanes
 	if (car_lane == LANE::LEFT || car_lane == LANE::RIGHT) {

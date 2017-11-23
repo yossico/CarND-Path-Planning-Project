@@ -50,7 +50,7 @@ double Vehicle::get_d() {
 	return this->d;
 }
 
-LANE Vehicle::Getlane() {
+LANE Vehicle::lane() {
 	LANE lane;
 	if (this->d < 4.0) {
 		lane = LANE::LEFT;

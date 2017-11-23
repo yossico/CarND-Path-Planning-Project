@@ -32,8 +32,9 @@ public:
 
 	vector<double> JMT(vector<double> start, vector <double> end, double T);
 	bool safe_lane(vector<Vehicle> carsinlane , double car_s);
-	void DecideState(Road myRoad, LANE currlane, double car_s);
+	void DecideState(Road myRoad, double currlane, double car_s);
 	void ApplyState();
+	LANE getLANE(double lane);
 
 	/* FSM  transitions */
 	void apply_action(Vehicle& car, LANE current_lane, LANE target_lane);

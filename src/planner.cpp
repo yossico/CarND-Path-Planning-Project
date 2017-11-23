@@ -21,9 +21,18 @@ bool Planner::safe_lane(vector<Vehicle> carsinlane, double car_s)
 	return true;
 }
 
-//FSM control
-void Planner::DecideState(Road myRoad, LANE currlane, double car_s)
+LANE Planner::getLANE(double lane)
 {
+	if (lane == 1)
+		return LANE::CENTER;
+	else if (lane == 0)
+		return LANE::LEFT;
+	return LANE::RIGHT;
+}
+//FSM control
+void Planner::DecideState(Road myRoad, double lane , double car_s)
+{
+	LANE currlane = getLANE(lane);
 	// check if blocked, i.e. car is within 40 meters
 	if (safe_lane(myRoad.get_lane_status(currlane), car_s))
 	{ // if lane safe keep lane and set target high speed 
