@@ -16,7 +16,7 @@ const double SAFETY_DISTANCE = 40.0; //m
 const double GUARD_DISTANCE = 20.0; //m
 const double TRACK_DISTANCE = 6945.554; //m
 const double ROAD_WIDTH = 12.0; //m
-const double SPEED_LIMIT = 20.0; //m/s
+const double SPEED_LIMIT = 19.0; //m/s
 
 enum class LANE { LEFT, CENTER, RIGHT };
 

@@ -105,103 +105,17 @@ vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 }
 
 
-/* FSM *
-void Planner::ApplyState(LANE current_lane) {
-	if (current_lane == target_lane) {
-		this->mystate = STATE::KEEP_LANE;
-	}
-	else {
-		// not equal
-		if (current_lane == LANE::LEFT) {
-			this->mystate = STATE::CHANGE_RIGHT;
-		}
-		else if (current_lane == LANE::RIGHT) {
-			this->mystate = STATE::CHANGE_LEFT;
-		}
-		else {
-			if (target_lane == LANE::LEFT) {
-				this->mystate = STATE::CHANGE_LEFT;
-			}
-			else {
-				this->mystate = STATE::CHANGE_RIGHT;
-			}
-		}
-	}
-}*
-
-/* APPLY ACTION *
-void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
-	car.set_previous_s(this->end_s);
-	car.set_previous_d(this->end_d);
-	this->set_state(current_lane, target_lane);
-}*/
-
-/* ACTIONS */
-void Planner::start_car(Vehicle& car) {
+/*
+void Planner::start_car(Vehicle& car) 
+{
 	cout << "ACTION: start_car" << endl;
 	this->n = 4 * POINTS; // 4 cycles to start
 	double target_v = SPEED_LIMIT*0.5;
-/*	double target_s = car.get_s() + n * AT * target_v;;
+	double target_s = car.get_s() + n * AT * target_v;;
 
 	this->start_s = { car.get_s(), car.get_v(), 0.0 };
 	this->end_s = { target_s, target_v, 0.0 };
 
 	this->start_d = { get_lane_d(car.lane()), 0.0, 0.0 };
 	this->end_d = { get_lane_d(car.lane()), 0.0, 0.0 };
-
-	this->apply_action(car, car.lane(), car.lane());
-	*/
-}
-/*
-void Planner::stay_in_lane(Vehicle& car) {
-	cout << "ACTION: stay_in_lane" << endl;
-	this->n = CYCLES*POINTS;
-	double target_v = min(car.prev_s()[1] * 1.3, SPEED_LIMIT);
-	double target_s = car.prev_s()[0] + n * AT * target_v;
-
-	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
-	this->end_s = { target_s, target_v, 0.0 };
-
-	double target_d = get_lane_d(car.prev_d()[0]);
-
-	this->start_d = { get_lane_d(car.prev_d()[0]), 0.0, 0.0 };
-	this->end_d = { target_d, 0.0, 0.0 };
-
-	this->apply_action(car, get_lane(car.prev_d()[0]), get_lane(car.prev_d()[0]));
-}
-
-void Planner::reduce_speed(Vehicle& car) {
-	cout << "ACTION: reduce_speed" << endl;
-	this->n = CYCLES*POINTS;
-	this->new_points = true;
-	double target_v = max(car.prev_s()[1] * 0.8, SPEED_LIMIT / 2);
-	double target_s = car.prev_s()[0] + n * AT * target_v;
-
-	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
-	this->end_s = { target_s, target_v, 0.0 };
-
-	double target_d = get_lane_d(car.prev_d()[0]);
-
-	this->start_d = { get_lane_d(car.prev_d()[0]), 0.0, 0.0 };
-	this->end_d = { target_d, 0.0, 0.0 };
-
-	this->apply_action(car, get_lane(car.prev_d()[0]), get_lane(car.prev_d()[0]));
-}
-
-void Planner::change_lane(Vehicle& car, LANE target_lane) {
-	cout << "ACTION: reduce_speed" << endl;
-	this->n = CYCLES*POINTS;
-	this->new_points = true;
-	double target_v = car.prev_s()[1];
-	double target_s = car.prev_s()[0] + n * AT * target_v;
-
-	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
-	this->end_s = { target_s, target_v, 0.0 };
-
-	double target_d = get_lane_d(target_lane);
-
-	this->start_d = { get_lane_d(car.prev_d()[0]), 0.0, 0.0 };
-	this->end_d = { target_d, 0.0, 0.0 };
-
-	this->apply_action(car, get_lane(car.prev_d()[0]), get_lane(target_d));
 }*/
