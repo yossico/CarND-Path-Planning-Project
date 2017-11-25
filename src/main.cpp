@@ -306,7 +306,7 @@ int main() {
 					}
 
 					myroad.update_road(left_lane, center_lane, right_lane);
-					myPlanner.DecideState(myroad, lane, car_s);
+					myPlanner.DecideState(myroad, lane, car);
 
 					/*bool car_to_left = false, car_to_right = false, car_just_ahead = false;
 					for (Vehicle other_car : other_cars) {
