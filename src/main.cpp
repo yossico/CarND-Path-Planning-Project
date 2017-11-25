@@ -429,7 +429,7 @@ int main() {
 						ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);
 					}
 
-					//spline s;
+					spline s;
 					s.set_points(ptsx, ptsy);
 
 
