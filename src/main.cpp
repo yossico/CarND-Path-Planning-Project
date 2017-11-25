@@ -296,10 +296,10 @@ int main() {
 							{
 								//do some logic here to prevent collision
 								too_close = true;
-								if (lane > 0)
+								/*if (lane > 0)
 								{
 									lane = 0;
-								}
+								}*/
 							}
 						}
 					}
@@ -375,10 +375,10 @@ int main() {
 						ptsy.push_back(ref_y);
 					}
 
-					// jmt
-					double T = this->n * AT;
-					vector<double> poly_s = this->JMT(this->start_s, this->end_s, T);
-					vector<double> poly_d = this->JMT(this->start_d, this->end_d, T);
+					/* jmt
+					double T = n * AT;
+					vector<double> poly_s = JMT(car_s, end_s, T);
+					vector<double> poly_d = JMT(car_d, end_d, T);
 
 					double t, next_s, next_d, mod_s, mod_d;
 					vector <double> XY;
@@ -387,7 +387,7 @@ int main() {
 
 						t = AT*i;
 
-						// /* JMT */
+						/* JMT *
 						// cout << "----------JMT----------" << endl;
 						// cout << "t= " << t << endl;
 
@@ -404,11 +404,11 @@ int main() {
 
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
-					}
+					}*/
 
 
 					//create waypoints vector. must fill this to make the car move (walkthrough)
-					/*vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector <double> next_wp1 = getXY(car_s + 60, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector <double> next_wp2 = getXY(car_s + 90, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					ptsx.push_back(next_wp0[0]);
@@ -429,11 +429,11 @@ int main() {
 						ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);
 					}
 
-					/*spline s;
-					s.set_points(ptsx, ptsy);*/
+					//spline s;
+					s.set_points(ptsx, ptsy);
 
 
-					/*vector<double> next_x_vals;
+					vector<double> next_x_vals;
 					vector<double> next_y_vals;
 
 					//add the already calculated previous points to the path
@@ -469,7 +469,7 @@ int main() {
 						next_x_vals.push_back(x_point);
 						next_y_vals.push_back(y_point);
 
-					}*/
+					}
 
 					//create the control/utput msg 
 					json msgJson;
