@@ -30,11 +30,11 @@ LANE Planner::getLANE(double lane)
 	return LANE::RIGHT;
 }
 //FSM control
-void Planner::DecideState(Road myRoad, double lane , double car_s)
+void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 {
 	LANE currlane = getLANE(lane);
 	// check if blocked, i.e. car is within 40 meters
-	if (safe_lane(myRoad.get_lane_status(currlane), car_s))
+	if (myRoad.safe_lane(car, car.lane()))
 	{ // if lane safe keep lane and set target high speed 
 		mystate = STATE::KEEP_LANE;
 		newlane = currlane;
@@ -43,7 +43,7 @@ void Planner::DecideState(Road myRoad, double lane , double car_s)
 	}
 	else  //unsafe
 	{
-		if (safe_lane(myRoad.get_lane_status(LANE::CENTER), car_s))
+		if (myRoad.safe_lane(car, LANE::CENTER))
 		{
 			if (currlane == LANE::LEFT)
 			{
@@ -64,13 +64,13 @@ void Planner::DecideState(Road myRoad, double lane , double car_s)
 			return;
 		}
 		// we are in the center lane and unsafe
-		if (safe_lane(myRoad.get_lane_status(LANE::RIGHT), car_s))
+		if (myRoad.safe_lane(car, LANE::RIGHT))
 		{
 			mystate = STATE::CHANGE_RIGHT;
 			newlane = LANE::RIGHT;
 			return;
 		}
-		if (safe_lane(myRoad.get_lane_status(LANE::LEFT), car_s))
+		if ((myRoad.safe_lane(car, LANE::LEFT))
 		{
 			mystate = STATE::CHANGE_RIGHT;
 			newlane = LANE::LEFT;
