@@ -103,19 +103,3 @@ vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 
 	return { start[0], start[1], .5*start[2], C.data()[0], C.data()[1], C.data()[2] };
 }
-
-
-/*
-void Planner::start_car(Vehicle& car) 
-{
-	cout << "ACTION: start_car" << endl;
-	this->n = 4 * POINTS; // 4 cycles to start
-	double target_v = SPEED_LIMIT*0.5;
-	double target_s = car.get_s() + n * AT * target_v;;
-
-	this->start_s = { car.get_s(), car.get_v(), 0.0 };
-	this->end_s = { target_s, target_v, 0.0 };
-
-	this->start_d = { get_lane_d(car.lane()), 0.0, 0.0 };
-	this->end_d = { get_lane_d(car.lane()), 0.0, 0.0 };
-}*/
