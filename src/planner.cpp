@@ -34,7 +34,7 @@ void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 {
 	LANE currlane = getLANE(lane);
 	// check if blocked, i.e. car is within 40 meters
-	if (myRoad.safe_lane(car, car.lane()))
+	if (myRoad.free_lane(car, car.lane()))
 	{ // if lane safe keep lane and set target high speed 
 		mystate = STATE::KEEP_LANE;
 		newlane = currlane;
@@ -44,21 +44,16 @@ void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 	}
 	else  //unsafe
 	{
-		if (myRoad.safe_lane(car, LANE::CENTER))
+		if (myRoad.free_lane(car, LANE::CENTER))
 		{
-			if (currlane == LANE::LEFT)
+			if ((currlane == LANE::LEFT) || (currlane == LANE::RIGHT))
 			{
-				mystate = STATE::CHANGE_RIGHT;
-				newlane = LANE::CENTER;
-				return;
-			}
-			else if (currlane == LANE::RIGHT)
-			{
+			cout << "current lane unsafe switch to center lane" << endl;
 				mystate = STATE::CHANGE_LEFT;
 				newlane = LANE::CENTER;
 				return;
 			}
-			cout << "center lane unsafe stay in R/L lanes" << endl;
+			cout << "current lane && center lane unsafe stay in R/L lanes" << endl;
 			//Left or right lane and cant change to center lane
 			mystate = STATE::KEEP_LANE;
 			newlane = currlane;
@@ -66,14 +61,14 @@ void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 			return;
 		}
 		// we are in the center lane and unsafe
-		if (myRoad.safe_lane(car, LANE::RIGHT))
+		if (myRoad.free_lane(car, LANE::RIGHT))
 		{
 			cout << "CL RIGHT" << endl;
 			mystate = STATE::CHANGE_RIGHT;
 			newlane = LANE::RIGHT;
 			return;
 		}
-		if (myRoad.safe_lane(car, LANE::LEFT))
+		if (myRoad.free_lane(car, LANE::LEFT))
 		{
 			cout << "CL LEFT" << endl;
 			mystate = STATE::CHANGE_RIGHT;
