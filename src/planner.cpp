@@ -38,6 +38,7 @@ void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 	{ // if lane safe keep lane and set target high speed 
 		mystate = STATE::KEEP_LANE;
 		newlane = currlane;
+		cout << "Lane safe stay in lane " << endl;
 		//target_vehicle_speed = 22.352 - 0.5;
 		return;
 	}
@@ -57,6 +58,7 @@ void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 				newlane = LANE::CENTER;
 				return;
 			}
+			cout << "center lane unsafe stay in R/L lanes" << endl;
 			//Left or right lane and cant change to center lane
 			mystate = STATE::KEEP_LANE;
 			newlane = currlane;
@@ -66,16 +68,19 @@ void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 		// we are in the center lane and unsafe
 		if (myRoad.safe_lane(car, LANE::RIGHT))
 		{
+			cout << "CL RIGHT" << endl;
 			mystate = STATE::CHANGE_RIGHT;
 			newlane = LANE::RIGHT;
 			return;
 		}
-		if ((myRoad.safe_lane(car, LANE::LEFT))
+		if (myRoad.safe_lane(car, LANE::LEFT))
 		{
+			cout << "CL LEFT" << endl;
 			mystate = STATE::CHANGE_RIGHT;
 			newlane = LANE::LEFT;
 			return;
 		}
+		cout << "lane unsafe couldnt change lanes reduce speed" << endl;
 		mystate = STATE::KEEP_LANE;
 		newlane = currlane;
 		reducespeed=true;
