@@ -31,7 +31,7 @@ public:
 
 	vector<double> JMT(vector<double> start, vector <double> end, double T);
 	bool safe_lane(vector<Vehicle> carsinlane , double car_s);
-	void DecideState(Road myRoad, double currlane, double car_s);
+	void DecideState(Road myRoad, double lane, Vehicle& car);
 	void ApplyState();
 	LANE getLANE(double lane);
 
