@@ -253,8 +253,8 @@ int main() {
 					bool too_close = false;
 
 					Vehicle car(car_x, car_y, car_speed, car_s, car_d, car_yaw);
-					cout << "-------------CAR--------------" << endl;
-					cout << "Car S: " << car_s << " " << "Car speed: " << car_speed << endl;
+				
+					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw" << car_x << car_y << car_speed << car_s << car_d << car_yaw << endl;
 
 					vector<Vehicle> left_lane;
 					vector<Vehicle> center_lane;

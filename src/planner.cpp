@@ -32,7 +32,7 @@ LANE Planner::getLANE(double lane)
 //FSM control
 void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 {
-	LANE currlane = getLANE(lane);
+	LANE currlane = car.lane();
 	// check if blocked, i.e. car is within 40 meters
 	if (myRoad.free_lane(car, car.lane()))
 	{ // if lane safe keep lane and set target high speed 
