@@ -64,3 +64,18 @@ LANE Vehicle::lane() {
 	return lane;
 }
 
+
+
+double Vehicle::lanenum() {
+	double lanenum;
+	if (this->d < 4.0) {
+		lanenum = 0;
+	}
+	else if ((this->d >= 4.0) && (this->d < 8.0)) {
+		lanenum = 1;
+	}
+	else {
+		lanenum = 2;
+	}
+	return lanenum;
+}
