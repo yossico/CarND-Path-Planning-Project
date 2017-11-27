@@ -38,7 +38,7 @@ void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 	{ // if lane safe keep lane and set target high speed 
 		mystate = STATE::KEEP_LANE;
 		newlane = currlane;
-		cout << "Lane safe stay in lane " << car.lane() << car.d <<endl;
+		cout << "Lane safe stay in lane " << currlane << car.d <<endl;
 		//target_vehicle_speed = 22.352 - 0.5;
 		return;
 	}
