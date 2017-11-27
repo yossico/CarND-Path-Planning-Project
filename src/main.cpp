@@ -328,11 +328,11 @@ int main() {
 					}*/
 
 
-					if (too_close)
+					if (myPlanner.reducespeed)
 					{
 						ref_velocity -= 0.224;
 					}
-					else if (ref_velocity < 47)
+					else if (ref_velocity < 46)
 					{
 						ref_velocity += 0.224;
 					}
