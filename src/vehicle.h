@@ -42,7 +42,7 @@ public:
 	double get_d();
 	double get_yaw();
 
-	double Vehicle::lanenum()
+	double lanenum();
 
 	void update(double x, double y, double v, double s, double d, double yaw);
 	void set_previous_s(vector<double> previous_s);

@@ -252,9 +252,10 @@ int main() {
 					}
 					bool too_close = false;
 
-					Vehicle car(car_x, car_y, car_speed, car_s, car_d, car_yaw);
+					Vehicle car;
+					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw);
 				
-					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw" << car_x << car_y << car_speed << car_s << car_d << car_yaw << endl;
+					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw " << car_x << " "<< car_y << " " << car_speed << " "<< car_s << " " << " " << car_d << " "  << car_yaw << endl;
 
 					vector<Vehicle> left_lane;
 					vector<Vehicle> center_lane;
