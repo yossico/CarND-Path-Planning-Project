@@ -202,7 +202,7 @@ int main() {
 	string map_file_ = "../data/highway_map.csv";
 
 
-	Map map(map_file_);
+	//Map map(map_file_);
 	Road myroad;
 	Planner myPlanner;
 
