@@ -168,7 +168,7 @@ vector<double> getXY(double s, double d, const vector<double> &Pointss_s, const 
 double lane = 1.0;
 
 
-void estimate_new_points(Map& map, vector<vector<double>>& trajectory) {
+/*void estimate_new_points(Map& map, vector<vector<double>>& trajectory) {
 
 	// jmt
 	double T = this->n * AT;
@@ -185,7 +185,7 @@ void estimate_new_points(Map& map, vector<vector<double>>& trajectory) {
 		// cout << "----------JMT----------" << endl;
 		// cout << "t= " << t << endl;
 
-		next_s = 0.0;
+	/*	next_s = 0.0;
 		next_d = 0.0;
 		for (int a = 0; a < poly_s.size(); a++) {
 			next_s += poly_s[a] * pow(t, a);
@@ -200,7 +200,7 @@ void estimate_new_points(Map& map, vector<vector<double>>& trajectory) {
 		trajectory[1].push_back(XY[1]);
 	}
 
-}
+}*/
 
 int main() {
 	uWS::Hub h;
@@ -336,36 +336,13 @@ int main() {
 							if ((check_car_s > car_s) && (check_car_s - car_s < 30))//if the car is ahead
 							{
 								//do some logic here to prevent collision
-								too_close = true;
-								/*if (lane > 0)
-								{
-									lane = 0;
-								}*/
+								too_close = true;								
 							}
 						}
 					}
 
 					myroad.update_road(left_lane, center_lane, right_lane);
 					myPlanner.DecideState(myroad, lane, car);
-
-					/*bool car_to_left = false, car_to_right = false, car_just_ahead = false;
-					for (Vehicle other_car : other_cars) {
-						double s_diff = fabs(other_car.s - car_s);
-						if (s_diff < FOLLOW_DISTANCE) {
-							cout << "s diff: " << s_diff << endl;
-							double d_diff = other_car.d - car_d;
-							if (d_diff > 2 && d_diff < 6) {
-								car_to_right = true;
-							}
-							else if (d_diff < -2 && d_diff > -6) {
-								car_to_left = true;
-							}
-							else if (d_diff > -2 && d_diff < 2) {
-								car_just_ahead = true;
-							}
-						}
-					}*/
-
 
 					if (too_close)
 					{
@@ -424,7 +401,7 @@ int main() {
 
 					double t, next_s, next_d, mod_s, mod_d;
 					vector <double> XY;
-					for (int i = 0; i < n; i++)
+					for(int i = 0; i < n; i++)
 					{
 
 						t = AT*i;
