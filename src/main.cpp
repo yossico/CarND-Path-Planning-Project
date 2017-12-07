@@ -363,7 +363,7 @@ int main() {
 					}
 
 					//---- Adding jmt----------------------------------
-					double T = n * AT;
+					/*double T = n * AT;
 					vector<double> poly_s = myPlanner.JMT(start_s, end_s, T);
 					vector<double> poly_d = myPlanner.JMT(start_d, end_d, T);
 
@@ -377,7 +377,7 @@ int main() {
 						// /* JMT */
 						// cout << "----------JMT----------" << endl;
 						// cout << "t= " << t << endl;
-
+					/*
 						next_s = 0.0;
 						next_d = 0.0;
 						for (int a = 0; a < poly_s.size(); a++) {
@@ -391,7 +391,7 @@ int main() {
 
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
-					}
+					}*/
 					//-------------End JMT--------------------------------------------------
 					
 					//create waypoints vector. must fill this to make the car move (walkthrough)
