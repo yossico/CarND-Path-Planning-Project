@@ -199,9 +199,6 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 int main() {
 	uWS::Hub h;
-	string map_file_ = "../data/highway_map.csv";
-
-
 	//Map map(map_file_);
 	Road myroad;
 	Planner myPlanner;
