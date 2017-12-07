@@ -139,7 +139,7 @@ vector<double> getFrenet(double x, double y, double theta, const vector<double> 
 }
 
 // Transform from Frenet s,d coordinates to Cartesian x,y
-vector<double> getXY(double s, double d, const vector<double> &maps_s, const vector<double> &maps_x, const vector<double> &maps_y)
+vector<double> getXY(double s, double d, const vector<double> &Pointss_s, const vector<double> &maps_x, const vector<double> &maps_y)
 {
 	int prev_wp = -1;
 
@@ -167,8 +167,47 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 }
 double lane = 1.0;
 
+
+void estimate_new_points(Map& map, vector<vector<double>>& trajectory) {
+
+	// jmt
+	double T = this->n * AT;
+	vector<double> poly_s = this->JMT(this->start_s, this->end_s, T);
+	vector<double> poly_d = this->JMT(this->start_d, this->end_d, T);
+
+	double t, next_s, next_d, mod_s, mod_d;
+	vector <double> XY;
+	for (int i = 0; i < n; i++) {
+
+		t = AT*i;
+
+		// /* JMT */
+		// cout << "----------JMT----------" << endl;
+		// cout << "t= " << t << endl;
+
+		next_s = 0.0;
+		next_d = 0.0;
+		for (int a = 0; a < poly_s.size(); a++) {
+			next_s += poly_s[a] * pow(t, a);
+			next_d += poly_d[a] * pow(t, a);
+		}
+		mod_s = fmod(next_s, TRACK_DISTANCE);
+		mod_d = fmod(next_d, ROAD_WIDTH);
+
+		XY = map.getXY(mod_s, mod_d);
+
+		trajectory[0].push_back(XY[0]);
+		trajectory[1].push_back(XY[1]);
+	}
+
+}
+
 int main() {
 	uWS::Hub h;
+	string map_file_ = "../data/highway_map.csv";
+
+
+	Map map(map_file_);
 	Road myroad;
 	Planner myPlanner;
 
@@ -328,7 +367,7 @@ int main() {
 					}*/
 
 
-					if (myPlanner.reducespeed)
+					if (too_close)
 					{
 						ref_velocity -= 0.224;
 					}
@@ -336,6 +375,7 @@ int main() {
 					{
 						ref_velocity += 0.224;
 					}
+					double prevlane = car.lanenum();
 					if (myPlanner.newlane == LANE::CENTER)
 						lane = 1;
 					else if (myPlanner.newlane == LANE::LEFT)
@@ -377,19 +417,19 @@ int main() {
 						ptsy.push_back(ref_y);
 					}
 
-					/* jmt
+					// jmt
 					double T = n * AT;
-					vector<double> poly_s = JMT(car_s, end_s, T);
-					vector<double> poly_d = JMT(car_d, end_d, T);
+					vector<double> poly_s = myPlanner.JMT(start_s, end_s, T);
+					vector<double> poly_d = myPlanner.JMT(start_d, end_d, T);
 
 					double t, next_s, next_d, mod_s, mod_d;
 					vector <double> XY;
-					vector<vector<double>> trajectory = { next_x_vals, next_y_vals };
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n; i++)
+					{
 
 						t = AT*i;
 
-						/* JMT *
+						// /* JMT */
 						// cout << "----------JMT----------" << endl;
 						// cout << "t= " << t << endl;
 
@@ -402,15 +442,15 @@ int main() {
 						mod_s = fmod(next_s, TRACK_DISTANCE);
 						mod_d = fmod(next_d, ROAD_WIDTH);
 
-						XY = getXY(mod_s, mod_d, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+						XY = Points.getXY(mod_s, mod_d, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
-					}*/
+					}
 
-
+					
 					//create waypoints vector. must fill this to make the car move (walkthrough)
-					vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					/*vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector <double> next_wp1 = getXY(car_s + 60, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector <double> next_wp2 = getXY(car_s + 90, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					ptsx.push_back(next_wp0[0]);
@@ -471,7 +511,7 @@ int main() {
 						next_x_vals.push_back(x_point);
 						next_y_vals.push_back(y_point);
 
-					}
+					}*/
 
 					//create the control/utput msg 
 					json msgJson;
