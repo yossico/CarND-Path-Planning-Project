@@ -32,6 +32,7 @@ LANE Planner::getLANE(double lane)
 //FSM control
 void Planner::DecideState(Road myRoad, double lane , Vehicle& car)
 {
+	reducespeed = false;
 	LANE currlane = car.lane();
 	double lanenum = car.lanenum();
 	// check if blocked, i.e. car is within 40 meters
