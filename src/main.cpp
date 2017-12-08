@@ -343,7 +343,7 @@ int main() {
 					}
 					else if (ref_velocity < 46)
 					{
-						double target_v = 46;
+						target_v = 46;
 						ref_velocity += 0.224;
 					}
 					double prevlane = car.lanenum();
