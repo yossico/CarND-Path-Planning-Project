@@ -421,7 +421,7 @@ int main() {
 						mod_s = fmod(next_s, TRACK_DISTANCE);
 						mod_d = fmod(next_d, ROAD_WIDTH);
 
-						XY = getXY(mod_s, mod_d, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+						XY = getXY(mod_s, mod_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
