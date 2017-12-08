@@ -398,8 +398,8 @@ int main() {
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
 
 					double end_d = lane * 4 + 2;
-					vector<double> poly_s = myPlanner.JMT(car_s, end_s, T);
-					vector<double> poly_d = myPlanner.JMT(car_d, end_d, T);
+					vector<double> poly_s = myPlanner.JMT(myPlanner.car_s, myPlanner.end_s, T);
+					vector<double> poly_d = myPlanner.JMT(myPlanner.car_d, myPlanner.end_d, T);
 
 					double t, next_s, next_d, mod_s, mod_d;
 					vector <double> XY;
