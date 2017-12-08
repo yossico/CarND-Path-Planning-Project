@@ -392,14 +392,14 @@ int main() {
 					//---- Adding jmt----------------------------------
 					double n = POINTS * 4;
 					double T = n * AT;
-					myPlanner.car_s = { car_s, ref_v, 0};
+					myPlanner.start_s = { car_s, ref_v, 0};
 					myPlanner.end_s = { car.get_s() + n * AT * (target_v+ ref_velocity)/2, target_v, 0 };
-					myPlanner.car_d = { car_d, ref_v, 0 };
+					myPlanner.start_d = { car_d, ref_v, 0 };
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
 
 					double end_d = lane * 4 + 2;
-					vector<double> poly_s = myPlanner.JMT(myPlanner.car_s, myPlanner.end_s, T);
-					vector<double> poly_d = myPlanner.JMT(myPlanner.car_d, myPlanner.end_d, T);
+					vector<double> poly_s = myPlanner.JMT(myPlanner.start_s, myPlanner.end_s, T);
+					vector<double> poly_d = myPlanner.JMT(myPlanner.start_d, myPlanner.end_d, T);
 
 					double t, next_s, next_d, mod_s, mod_d;
 					vector <double> XY;
