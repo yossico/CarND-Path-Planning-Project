@@ -28,12 +28,7 @@ public:
 
 	Planner();
 	~Planner() {};
-
-	vector<double> start_s;
-	vector<double> end_s;
-	vector<double> start_d;
-	vector<double> end_d;
-
+		
 	vector<double> JMT(vector<double> start, vector <double> end, double T);
 	bool safe_lane(vector<Vehicle> carsinlane , double car_s);
 	void DecideState(Road myRoad, double lane, Vehicle& car);
