@@ -336,7 +336,7 @@ int main() {
 					myroad.update_road(left_lane, center_lane, right_lane);
 					myPlanner.DecideState(myroad, lane, car);
 
-					if (too_close)
+					if (myPlanner.reducespeed)
 					{
 						ref_velocity -= 0.224;
 					}
@@ -385,11 +385,15 @@ int main() {
 						ptsy.push_back(ref_y_prev);
 						ptsy.push_back(ref_y);
 					}
+					vector<vector<double>> trajectory = { ptsx, ptsy };
 
 					//---- Adding jmt----------------------------------
-					/*double T = n * AT;
-					vector<double> poly_s = myPlanner.JMT(start_s, end_s, T);
-					vector<double> poly_d = myPlanner.JMT(start_d, end_d, T);
+					double n = POINTS * 4;
+					double T = n * AT;
+					double end_s = car.get_s() + n * AT * ref_velocity;
+					double end_d = lane * 4 + 2;
+					vector<double> poly_s = myPlanner.JMT(car_s, end_s, T);
+					vector<double> poly_d = myPlanner.JMT(car_d, end_d, T);
 
 					double t, next_s, next_d, mod_s, mod_d;
 					vector <double> XY;
@@ -401,7 +405,7 @@ int main() {
 						// /* JMT */
 						// cout << "----------JMT----------" << endl;
 						// cout << "t= " << t << endl;
-					/*
+					
 						next_s = 0.0;
 						next_d = 0.0;
 						for (int a = 0; a < poly_s.size(); a++) {
@@ -411,15 +415,15 @@ int main() {
 						mod_s = fmod(next_s, TRACK_DISTANCE);
 						mod_d = fmod(next_d, ROAD_WIDTH);
 
-						XY = Points.getXY(mod_s, mod_d, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+						XY = getXY(mod_s, mod_d, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
-					}*/
+					}
 					//-------------End JMT--------------------------------------------------
 					
 					//create waypoints vector. must fill this to make the car move (walkthrough)
-					vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+					/*vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector <double> next_wp1 = getXY(car_s + 60, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					vector <double> next_wp2 = getXY(car_s + 90, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 					ptsx.push_back(next_wp0[0]);
@@ -480,13 +484,16 @@ int main() {
 						next_x_vals.push_back(x_point);
 						next_y_vals.push_back(y_point);
 
-					}
+					}*/
 
 					//create the control/utput msg 
 					json msgJson;
 					// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
-					msgJson["next_x"] = next_x_vals;
-					msgJson["next_y"] = next_y_vals;
+					//msgJson["next_x"] = next_x_vals;
+					//msgJson["next_y"] = next_y_vals;
+					// Update next point
+					msgJson["next_x"] = trajectory[0];
+					msgJson["next_y"] = trajectory[1];
 
 					auto msg = "42[\"control\"," + msgJson.dump() + "]";
 
