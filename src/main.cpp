@@ -392,9 +392,9 @@ int main() {
 					//---- Adding jmt----------------------------------
 					double n = POINTS * 4;
 					double T = n * AT;
-					myPlanner.start_s = { car_s, ref_v, 0};
+					myPlanner.start_s = { car_s, ref_velocity , 0};
 					myPlanner.end_s = { car.get_s() + n * AT * (target_v+ ref_velocity)/2, target_v, 0 };
-					myPlanner.start_d = { car_d, ref_v, 0 };
+					myPlanner.start_d = { car_d, ref_velocity, 0 };
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
 
 					double end_d = lane * 4 + 2;
