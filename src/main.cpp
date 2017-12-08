@@ -273,7 +273,7 @@ int main() {
 					double end_path_d = j[1]["end_path_d"];
 					// Sensor Fusion Data, a list of all other cars on the same side of the road.
 					vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
-					double target_v;
+					double target_v = 0;
 					int prev_size = previous_path_x.size();
 
 					//looking at other cars
@@ -393,11 +393,11 @@ int main() {
 					double n = POINTS * 4;
 					double T = n * AT;
 					myPlanner.start_s = { car_s, ref_velocity , 0};
-					myPlanner.end_s = { car.get_s() + n * AT * (target_v+ ref_velocity)/2, target_v, 0 };
+					myPlanner.end_s = { car.get_s() + n * AT * ref_velocity, target_v, 0 };
 					myPlanner.start_d = { car_d, ref_velocity, 0 };
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
+					cout << "ref_velocity, target_v, lane" << ref_velocity << " " << target_v << " " << lane << endl;
 
-					double end_d = lane * 4 + 2;
 					vector<double> poly_s = myPlanner.JMT(myPlanner.start_s, myPlanner.end_s, T);
 					vector<double> poly_d = myPlanner.JMT(myPlanner.start_d, myPlanner.end_d, T);
 
