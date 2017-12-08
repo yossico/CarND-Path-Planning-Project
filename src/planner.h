@@ -29,6 +29,11 @@ public:
 	Planner();
 	~Planner() {};
 
+	vector<double> start_s;
+	vector<double> end_s;
+	vector<double> start_d;
+	vector<double> end_d;
+
 	vector<double> JMT(vector<double> start, vector <double> end, double T);
 	bool safe_lane(vector<Vehicle> carsinlane , double car_s);
 	void DecideState(Road myRoad, double lane, Vehicle& car);
@@ -37,7 +42,6 @@ public:
 
 	/* FSM  transitions */
 	void apply_action(Vehicle& car, LANE current_lane, LANE target_lane);
-	void start_car(Vehicle& car);
 	void stay_in_lane(Vehicle& car);
 	void reduce_speed(Vehicle& car);
 	void change_lane(Vehicle& car, LANE target_lane);
