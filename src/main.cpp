@@ -422,7 +422,7 @@ int main() {
 						mod_d = fmod(next_d, ROAD_WIDTH);
 
 						XY = getXY(mod_s, mod_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-						cout << "a= " << a << "mod_s" << mod_s <<  "mod_d" << mod_d <<endl;
+						cout << "i= " << i << "mod_s" << mod_s <<  "mod_d" << mod_d <<endl;
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
 					}
