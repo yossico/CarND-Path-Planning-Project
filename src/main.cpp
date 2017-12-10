@@ -341,13 +341,13 @@ int main() {
 
 					if (myPlanner.reducespeed)
 					{
-						ref_velocity -= 0.224;
+						//ref_velocity -= 0.224;
 						target_v = 23;
 					}
 					else if (ref_velocity < 46)
 					{
 						target_v = 46;
-						ref_velocity += 0.224;
+						//ref_velocity += 0.224;
 					}
 					double prevlane = car.lanenum();
 					if (myPlanner.newlane == LANE::CENTER)
@@ -364,7 +364,7 @@ int main() {
 					double ref_y = car_y;
 					double ref_yaw = deg2rad(car_yaw);
 
-					if (prev_size < 2)  //in case we just started no ref points
+					/*if (prev_size < 2)  //in case we just started no ref points
 					{
 						double prev_car_x = car_x - cos(car_yaw);
 						double prev_car_y = car_y - sin(car_yaw);
@@ -389,17 +389,22 @@ int main() {
 						ptsx.push_back(ref_x);
 						ptsy.push_back(ref_y_prev);
 						ptsy.push_back(ref_y);
-					}
+					}*/
 					vector<vector<double>> trajectory = { ptsx, ptsy };
 
 					//---- Adding jmt----------------------------------
 					double n = POINTS * 4;
 					double T = n * AT;
+					if (ref_velocity == 0)
+					{
+						ref_velocity = 0.224;
+					}
+					target_v = min(ref_velocity * 1.3, 46);
 					myPlanner.start_s = { car_s, ref_velocity , 0};
 					myPlanner.end_s = { car_s + n * AT * ref_velocity, target_v, 0 };
 					myPlanner.start_d = { car_d, ref_velocity, 0 };
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
-					cout << "ref_velocity, target_v, lane " << ref_velocity << " " << target_v << " " << lane << endl;
+					cout << "ref_velocity, target_v, lane, car_d " << ref_velocity << " " << target_v << " " << lane << " "<< car_d << endl;
 
 					vector<double> poly_s = myPlanner.JMT(myPlanner.start_s, myPlanner.end_s, T);
 					vector<double> poly_d = myPlanner.JMT(myPlanner.start_d, myPlanner.end_d, T);
