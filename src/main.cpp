@@ -14,6 +14,7 @@
 #include "road.h"
 #include "planner.h"
 
+const double MAX_SPEED = 20;
 
 using namespace std;
 using namespace tk;
@@ -399,7 +400,7 @@ int main() {
 					{
 						ref_velocity = 0.224;
 					}
-					target_v = min(ref_velocity * 1.3, 46);
+					target_v = min(ref_velocity * 1.3, MAX_SPEED);
 					myPlanner.start_s = { car_s, ref_velocity , 0};
 					myPlanner.end_s = { car_s + n * AT * ref_velocity, target_v, 0 };
 					myPlanner.start_d = { car_d, ref_velocity, 0 };
