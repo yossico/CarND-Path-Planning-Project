@@ -241,7 +241,7 @@ int main() {
 		map_waypoints_dy.push_back(d_y);
 	}
 */
-	h.onMessage([&myroad, &myPoints, &myPlanner /*&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy*/](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+	h.onMessage([&myroad, &myPlanner, myPoints /*&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy*/](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
 		uWS::OpCode opCode) {
 		// "42" at the start of the message means there's a websocket message event.
 		// The 4 signifies a websocket message
@@ -280,22 +280,21 @@ int main() {
 					double target_v = 0;
 					int prev_size = previous_path_x.size();
 
-					//looking at other cars
-					if (prev_size > 0)
-					{
-						car_s = end_path_s;
-					}
+					
 					bool too_close = false;
+					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw " << car_x << " " << car_y << " " << car_speed << " " << car_s << " " << car_d << " " << car_yaw << endl;
 
 					Vehicle car;
 					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw);
 				
-					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw " << car_x << " "<< car_y << " " << car_speed << " "<< car_s << " " << " " << car_d << " "  << car_yaw << endl;
-
 					vector<Vehicle> left_lane;
 					vector<Vehicle> center_lane;
 					vector<Vehicle> right_lane;
-
+					//looking at other cars
+					/*if (prev_size > 0)
+					{
+						car_s = end_path_s;
+					}*/
 					for (int i = 0; i < sensor_fusion.size(); i++)
 					{
 						int id = sensor_fusion[i][0];
@@ -400,7 +399,7 @@ int main() {
 					myPlanner.end_s = { car.get_s() + n * AT * ref_velocity, target_v, 0 };
 					myPlanner.start_d = { car_d, ref_velocity, 0 };
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
-					cout << "ref_velocity, target_v, lane" << ref_velocity << " " << target_v << " " << lane << endl;
+					cout << "ref_velocity, target_v, lane " << ref_velocity << " " << target_v << " " << lane << endl;
 
 					vector<double> poly_s = myPlanner.JMT(myPlanner.start_s, myPlanner.end_s, T);
 					vector<double> poly_d = myPlanner.JMT(myPlanner.start_d, myPlanner.end_d, T);
