@@ -79,3 +79,11 @@ double Vehicle::lanenum() {
 	}
 	return lanenum;
 }
+
+vector<double> Vehicle::prev_s() {
+	return this->previous_s;
+}
+
+vector<double> Vehicle::prev_d() {
+	return this->previous_d;
+}
