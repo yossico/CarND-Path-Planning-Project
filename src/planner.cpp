@@ -103,54 +103,62 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 	LANE currlane = car.lane();
 	double lanenum = car.lanenum();
 	if (this->state == STATE::START)
-		this->start_car(car);
-
-	// check if blocked, i.e. car is within 40 meters
-	if (myRoad.free_lane(car, car.lane()))
-	{ // if lane safe keep lane and set target high speed 
-		stay_in_lane(car);
-		//state = STATE::KEEP_LANE;
-		//newlane = currlane;
-		//cout << "Lane safe stay in lane " << lanenum <<"  "<< car.d <<endl;
-		//target_vehicle_speed = 22.352 - 0.5;
-		
-	}
-	else  //unsafe
 	{
-		if (myRoad.free_lane(car, LANE::CENTER))
+		cout << "start car " << endl;
+		this->start_car(car);
+		this->state = STATE::KEEP_LANE;
+	}
+	// check if blocked, i.e. car is within 40 meters
+	else 
+	{
+		if (myRoad.free_lane(car, car.lane()))
+		{ // if lane safe keep lane and set target high speed 
+			stay_in_lane(car);
+			state = STATE::KEEP_LANE;
+			cout << "Lane safe stay in lane " << lanenum <<"  "<< car.d <<endl;	
+		}
+		else  //unsafe
 		{
-			if ((currlane == LANE::LEFT) || (currlane == LANE::RIGHT))
+			if (myRoad.free_lane(car, LANE::CENTER))
 			{
-				cout << "current lane unsafe switch to center lane" << endl;
-				//state = STATE::CHANGE_LEFT;
-				change_lane(car, LANE::CENTER);
-				//newlane = LANE::CENTER;
+				cout << "current lane unsafe switch to center lane";
+				if (currlane == LANE::RIGHT)
+				{
+					state = STATE::CHANGE_LEFT;
+					cout << "change left" << endl;
+				}
+				else if (currlane == LANE::LEFT)
+				{
+					state = STATE::CHANGE_RIGHT;
+					cout << "Change Right" << endl;
+				}
 			}
-			cout << "current lane && center lane unsafe stay in R/L lanes" << endl;
-			//Left or right lane and cant change to center lane
+			else if ((currlane == LANE::RIGHT) || (currlane == LANE::LEFT))  //its unsafe and center lane is not free we are in center lane
+			{
+				//Left or right lane and cant change to center lane
+				cout << "current lane && center lane unsafe stay in R/L lanes" << endl;
+				state = STATE::KEEP_LANE;
+				this->reduce_speed(car);
+			}
+			// we are in the center lane and unsafe
+			else if (myRoad.free_lane(car, LANE::RIGHT))
+			{
+				cout << "CL RIGHT" << endl;
+				state = STATE::CHANGE_RIGHT;
+				change_lane(car, LANE::RIGHT);
+				//state = STATE::CHANGE_RIGHT; //newlane = LANE::RIGHT;
+			}
+			else if (myRoad.free_lane(car, LANE::LEFT))
+			{
+				cout << "CL LEFT" << endl;
+				state = STATE::CHANGE_RIGHT;
+				change_lane(car, LANE::LEFT);
+				return;
+			}
+			cout << "lane unsafe couldnt change lanes reduce speed" << endl;
 			state = STATE::KEEP_LANE;
 			this->reduce_speed(car);
-			newlane = currlane;
-			return;
 		}
-		// we are in the center lane and unsafe
-		if (myRoad.free_lane(car, LANE::RIGHT))
-		{
-			cout << "CL RIGHT" << endl;
-			change_lane(car, LANE::RIGHT);
-			//state = STATE::CHANGE_RIGHT; //newlane = LANE::RIGHT;
-		}
-		if (myRoad.free_lane(car, LANE::LEFT))
-		{
-			cout << "CL LEFT" << endl;
-			state = STATE::CHANGE_RIGHT;
-			change_lane(car, LANE::LEFT);
-			return;
-		}
-		cout << "lane unsafe couldnt change lanes reduce speed" << endl;
-		state = STATE::KEEP_LANE;
-		this->reduce_speed(car);
-		newlane = currlane;
 	}
 	if (trajectory.size() < POINTS)
 		GetJMTPathPoints(points, trajectory);
