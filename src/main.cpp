@@ -291,6 +291,9 @@ int main() {
 					vector<Vehicle> left_lane;
 					vector<Vehicle> center_lane;
 					vector<Vehicle> right_lane;
+
+					vector<double> next_x_vals;
+					vector<double> next_y_vals;
 					//looking at other cars
 					/*if (prev_size > 0)
 					{
