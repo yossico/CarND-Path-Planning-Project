@@ -241,7 +241,7 @@ int main() {
 		map_waypoints_dy.push_back(d_y);
 	}
 */
-	h.onMessage([&myroad, &myPoints, &myPlanner, /*&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy*/](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+	h.onMessage([&myroad, &myPoints, &myPlanner /*&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy*/](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
 		uWS::OpCode opCode) {
 		// "42" at the start of the message means there's a websocket message event.
 		// The 4 signifies a websocket message
@@ -425,7 +425,7 @@ int main() {
 						mod_s = fmod(next_s, TRACK_DISTANCE);
 						mod_d = fmod(next_d, ROAD_WIDTH);
 
-						XY = myPoints.getXY(mod_s, mod_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+						XY = myPoints.getXY(mod_s, mod_d);
 						cout << "i= " << i << "mod_s" << mod_s <<  "mod_d" << mod_d <<endl;
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
