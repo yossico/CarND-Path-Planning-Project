@@ -202,7 +202,7 @@ double lane = 1.0;
 
 int main() {
 	uWS::Hub h;
-
+	bool bfirst = true;
 	string map_file_ = "../data/highway_map.csv";
 	Road myroad;
 	Planner myPlanner;
@@ -318,29 +318,21 @@ int main() {
 						}
 						else {
 							right_lane.push_back(vehicle);
-						}
-
-						if ((d < 2 + LANEWIDTH * lane + 2) && (d > 2 + LANEWIDTH * lane - 2))
-						{
-							double vx = sensor_fusion[i][3];
-							double vy = sensor_fusion[i][4];
-							double check_car_s = sensor_fusion[i][5];
-							double check_speed = sqrt(vx*vx + vy*vy);
-
-							check_car_s += ((double)prev_size*.02*check_speed); //predicting one point into the future
-
-							if ((check_car_s > car_s) && (check_car_s - car_s < 30))//if the car is ahead
-							{
-								//do some logic here to prevent collision
-								too_close = true;								
-							}
-						}
+						}			
 					}
 
+					int n = previous_path_x.size();
+					for (int i = 0; i < n; i++) {
+						next_x_vals.push_back(previous_path_x[i]);
+						next_y_vals.push_back(previous_path_y[i]);
+					}
 					myroad.update_road(left_lane, center_lane, right_lane);
-					myPlanner.DecideState(myroad, lane, car);
+					vector<vector<double>> trajectory = { next_x_vals, next_y_vals };
+					
+					myPlanner.UpdatePath(myPoints, myroad, car, trajectory)
+					//myPlanner.DecideState(myroad, lane, car);
 
-					if (myPlanner.reducespeed)
+					/*if (myPlanner.reducespeed)
 					{
 						//ref_velocity -= 0.224;
 						target_v = 23;
@@ -391,18 +383,21 @@ int main() {
 						ptsy.push_back(ref_y_prev);
 						ptsy.push_back(ref_y);
 					}*/
-					vector<vector<double>> trajectory = { ptsx, ptsy };
-
 					//---- Adding jmt----------------------------------
-					double n = POINTS * 4;
+					/*double n = POINTS * 2;
 					double T = n * AT;
 					if (ref_velocity == 0)
 					{
 						ref_velocity = 0.224;
 					}
-					target_v = min(ref_velocity * 1.3, MAX_SPEED);
+					if (bfirst)
+					{
+						target_v = min(ref_velocity * 1.3, MAX_SPEED / 2);
+						myPlanner.end_s = { car_s + n * AT * target_v, target_v, 0 };
+						bfirst = false;
+					}
 					myPlanner.start_s = { car_s, ref_velocity , 0};
-					myPlanner.end_s = { car_s + n * AT * ref_velocity, target_v, 0 };
+					myPlanner.end_s = { car_s + n * AT * target_v, target_v, 0 };
 					myPlanner.start_d = { car_d, ref_velocity, 0 };
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
 					cout << "ref_velocity, target_v, lane, car_d " << ref_velocity << " " << target_v << " " << lane << " "<< car_d << endl;
@@ -420,7 +415,7 @@ int main() {
 						// /* JMT */
 						// cout << "----------JMT----------" << endl;
 						// cout << "t= " << t << endl;
-					
+					/*
 						next_s = 0.0;
 						next_d = 0.0;
 						for (int a = 0; a < poly_s.size(); a++) {
