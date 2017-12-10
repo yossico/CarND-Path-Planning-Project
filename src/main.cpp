@@ -396,7 +396,7 @@ int main() {
 					double n = POINTS * 4;
 					double T = n * AT;
 					myPlanner.start_s = { car_s, ref_velocity , 0};
-					myPlanner.end_s = { car.get_s() + n * AT * ref_velocity, target_v, 0 };
+					myPlanner.end_s = { car_s + n * AT * ref_velocity, target_v, 0 };
 					myPlanner.start_d = { car_d, ref_velocity, 0 };
 					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
 					cout << "ref_velocity, target_v, lane " << ref_velocity << " " << target_v << " " << lane << endl;
