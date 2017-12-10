@@ -78,7 +78,8 @@ LANE Planner::getLANE(double lane)
 /* JMT*/
 vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 {
-	
+	cout << "JMT::start S V A" << start[0] << " " << start[1] << " " << start[2] << endl;
+	cout << "JMT::end S V A" << end[0] << " " << end[1] << " " << end[2] << endl;
 	// prepare matrix A with coefficents
 	Eigen::MatrixXd A(3, 3);
 	Eigen::MatrixXd B(3, 1);
@@ -168,7 +169,9 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 {
 	// jmt
 	double T = 2*POINTS * AT;
+	cout << "JMT::S ";
 	vector<double> poly_s = this->JMT(this->start_s, this->end_s, T);
+	cout << "JMT::D ";
 	vector<double> poly_d = this->JMT(this->start_d, this->end_d, T);
 
 	double t, next_s, next_d, mod_s, mod_d;
@@ -208,7 +211,7 @@ void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
 /* ACTIONS */
 void Planner::start_car(Vehicle& car) {
 	cout << "ACTION: start_car" << endl;
-	this->n = 4 * POINTS; // 4 cycles to start
+	this->n = 2 * POINTS; // 4 cycles to start
 	double target_v = SPEED_LIMIT*0.5;
 	double target_s = car.get_s() + n * AT * target_v;;
 
@@ -228,7 +231,9 @@ void Planner::stay_in_lane(Vehicle& car) {
 	double target_s = car.prev_s()[0] + n * AT * target_v;
 
 	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
+	cout << "start_s S V A" << car.prev_s()[0] << " " << car.prev_s()[1] << " " << car.prev_s()[2] << endl;
 	this->end_s = { target_s, target_v, 0.0 };
+	cout << "end_s S V A" << target_s << " " << target_v << " " << 0 << endl;
 
 	double target_d = get_lane_d(car.prev_d()[0]);
 
