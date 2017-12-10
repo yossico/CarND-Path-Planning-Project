@@ -332,7 +332,7 @@ int main() {
 					myroad.update_road(left_lane, center_lane, right_lane);
 					vector<vector<double>> trajectory = { next_x_vals, next_y_vals };
 					
-					myPlanner.UpdatePath(myPoints, myroad, car, trajectory)
+					myPlanner.UpdatePath(myPoints, myroad, car, trajectory);
 					//myPlanner.DecideState(myroad, lane, car);
 
 					/*if (myPlanner.reducespeed)
