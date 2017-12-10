@@ -10,8 +10,10 @@
 #include "json.hpp"
 #include "spline.h"
 #include "defs.h"
+#include "Points.h"
 #include "road.h"
 #include "planner.h"
+
 
 using namespace std;
 using namespace tk;
@@ -168,7 +170,7 @@ vector<double> getFrenet(double x, double y, double theta, const vector<double> 
 double lane = 1.0;
 
 // Transform from Frenet s,d coordinates to Cartesian x,y
-vector<double> getXY(double s, double d, const vector<double> &maps_s, const vector<double> &maps_x, const vector<double> &maps_y)
+/*vector<double> getXY(double s, double d, const vector<double> &maps_s, const vector<double> &maps_x, const vector<double> &maps_y)
 {
 	int prev_wp = -1;
 
@@ -193,25 +195,27 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 	return { x,y };
 
-}
+}*/
 
 
 
 int main() {
 	uWS::Hub h;
-	//Map map(map_file_);
+
+	string map_file_ = "../data/highway_map.csv";
 	Road myroad;
 	Planner myPlanner;
+	Points myPoints(map_file_);
 
 	// Load up map values for waypoint's x,y,s and d normalized normal vectors
-	vector<double> map_waypoints_x;
+	/*vector<double> map_waypoints_x;
 	vector<double> map_waypoints_y;
 	vector<double> map_waypoints_s;
 	vector<double> map_waypoints_dx;
 	vector<double> map_waypoints_dy;
 
 	// Waypoint map to read from
-	string map_file_ = "../data/highway_map.csv";
+/*	string map_file_ = "../data/highway_map.csv";
 	// The max s value before wrapping around the track back to 0
 	double max_s = 6945.554;
 
@@ -236,8 +240,8 @@ int main() {
 		map_waypoints_dx.push_back(d_x);
 		map_waypoints_dy.push_back(d_y);
 	}
-
-	h.onMessage([&myroad, &myPlanner, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+*/
+	h.onMessage([&myroad, &myPoints, &myPlanner, /*&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy*/](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
 		uWS::OpCode opCode) {
 		// "42" at the start of the message means there's a websocket message event.
 		// The 4 signifies a websocket message
@@ -421,7 +425,7 @@ int main() {
 						mod_s = fmod(next_s, TRACK_DISTANCE);
 						mod_d = fmod(next_d, ROAD_WIDTH);
 
-						XY = getXY(mod_s, mod_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+						XY = myPoints.getXY(mod_s, mod_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 						cout << "i= " << i << "mod_s" << mod_s <<  "mod_d" << mod_d <<endl;
 						trajectory[0].push_back(XY[0]);
 						trajectory[1].push_back(XY[1]);
