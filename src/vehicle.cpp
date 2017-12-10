@@ -87,3 +87,11 @@ vector<double> Vehicle::prev_s() {
 vector<double> Vehicle::prev_d() {
 	return this->previous_d;
 }
+
+void Vehicle::set_previous_s(vector<double> previous_s) {
+	this->previous_s = previous_s;
+}
+
+void Vehicle::set_previous_d(vector<double> previous_d) {
+	this->previous_d = previous_d;
+}
