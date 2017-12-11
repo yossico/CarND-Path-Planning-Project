@@ -287,7 +287,7 @@ int main() {
 					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw " << car_x << " " << car_y << " " << car_speed << " " << car_s << " " << car_d << " " << car_yaw << endl;
 
 					
-					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw, car_a);
+					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw);
 				
 					vector<Vehicle> left_lane;
 					vector<Vehicle> center_lane;
@@ -329,107 +329,7 @@ int main() {
 					}
 					vector<vector<double>> trajectory = { next_x_vals, next_y_vals };
 					myPlanner.UpdatePath(myPoints, myroad, car, trajectory);
-					/*
-					myPlanner.start_s = { car_s, ref_velocity , 0};
-					myPlanner.end_s = { car_s + n * AT * target_v, target_v, 0 };
-					myPlanner.start_d = { car_d, ref_velocity, 0 };
-					myPlanner.end_d = { LANEWIDTH*(lane + 0.5), target_v, 0 };
-					cout << "ref_velocity, target_v, lane, car_d " << ref_velocity << " " << target_v << " " << lane << " "<< car_d << endl;
-
-					vector<double> poly_s = myPlanner.JMT(myPlanner.start_s, myPlanner.end_s, T);
-					vector<double> poly_d = myPlanner.JMT(myPlanner.start_d, myPlanner.end_d, T);
-
-					double t, next_s, next_d, mod_s, mod_d;
-					vector <double> XY;
-					for(int i = 0; i < n; i++)
-					{
-
-						t = AT*i;
-
-						// /* JMT */
-						// cout << "----------JMT----------" << endl;
-						// cout << "t= " << t << endl;
-					/*
-						next_s = 0.0;
-						next_d = 0.0;
-						for (int a = 0; a < poly_s.size(); a++) {
-							next_s += poly_s[a] * pow(t, a);
-							next_d += poly_d[a] * pow(t, a);
-						}
-						mod_s = fmod(next_s, TRACK_DISTANCE);
-						mod_d = fmod(next_d, ROAD_WIDTH);
-
-						XY = myPoints.getXY(mod_s, mod_d);
-						cout << "i= " << i << "mod_s" << mod_s <<  "mod_d" << mod_d <<endl;
-						trajectory[0].push_back(XY[0]);
-						trajectory[1].push_back(XY[1]);
-					}
-					//-------------End JMT--------------------------------------------------
-					
-					//create waypoints vector. must fill this to make the car move (walkthrough)
-					/*vector <double> next_wp0 = getXY(car_s + 30, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector <double> next_wp1 = getXY(car_s + 60, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					vector <double> next_wp2 = getXY(car_s + 90, LANEWIDTH*(lane + 0.5), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-					ptsx.push_back(next_wp0[0]);
-					ptsx.push_back(next_wp1[0]);
-					ptsx.push_back(next_wp2[0]);
-
-					ptsy.push_back(next_wp0[1]);
-					ptsy.push_back(next_wp1[1]);
-					ptsy.push_back(next_wp2[1]);
-
-
-					for (int i = 0; i < ptsx.size(); i++)
-					{
-						double shift_x = ptsx[i] - ref_x;
-						double shift_y = ptsy[i] - ref_y;
-
-						ptsx[i] = shift_x*cos(0-ref_yaw) - shift_y*sin(0-ref_yaw);
-						ptsy[i] = shift_x*sin(0-ref_yaw) + shift_y*cos(0-ref_yaw);
-					}
-
-					spline s;
-					s.set_points(ptsx, ptsy);
-
-
-					vector<double> next_x_vals;
-					vector<double> next_y_vals;
-
-					//add the already calculated previous points to the path
-					for (int i = 0; i < previous_path_x.size(); i++)
-					{
-						next_x_vals.push_back(previous_path_x[i]);
-						next_y_vals.push_back(previous_path_y[i]);
-					}
-					double target_x = 30.0;   //the distance to the first point is 30
-					double target_y = s(target_x); // we calculate the y value for that x with the spline
-
-					// the distance is the hypotenuse of the triangle made with X & Y
-					double target_dist = sqrt((target_x*target_x) + (target_y*target_x));
-					double x_add_on = 0;
-
-					for (int i = 1; i < 50-previous_path_x.size(); i++)
-					{
-						double N = target_dist/(.02 * ref_velocity / 2.24);
-						double x_point = x_add_on + target_x / N;
-						double y_point = s(x_point);
-
-						x_add_on = x_point;
-
-						double x_ref = x_point;
-						double y_ref = y_point;
-						// rotate back ccordinates
-						x_point = x_ref*cos(ref_yaw) - y_ref*sin(ref_yaw);
-						y_point = x_ref*sin(ref_yaw) + y_ref*cos(ref_yaw);
-						x_point += ref_x;
-						y_point += ref_y;
-
-						// add points to vector
-						next_x_vals.push_back(x_point);
-						next_y_vals.push_back(y_point);
-
-					}*/
-
+				
 					//create the control/utput msg 
 					json msgJson;
 					// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
