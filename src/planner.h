@@ -38,7 +38,9 @@ public:
 	void ApplyState();
 	LANE getLANE(double lane);
 
+
 	/* FSM  transitions */
+	void set_state(LANE current_lane, LANE target_lane);
 	void apply_action(Vehicle& car, LANE current_lane, LANE target_lane);
 	void start_car(Vehicle& car);
 	void stay_in_lane(Vehicle& car);
