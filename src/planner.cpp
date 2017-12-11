@@ -218,7 +218,7 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 		}
 		mod_s = fmod(next_s, TRACK_DISTANCE);
 		mod_d = fmod(next_d, ROAD_WIDTH);
-		cout << "t= " << t << " mod_s=" << mod_s << " mod_d= "<< mod_d<< endl;
+		//cout << "t= " << t << " mod_s=" << mod_s << " mod_d= "<< mod_d<< endl;
 		XY = points.getXY(mod_s, mod_d);
 	
 		trajectory[0].push_back(XY[0]);
