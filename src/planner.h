@@ -33,7 +33,7 @@ public:
 	bool safe_lane(vector<Vehicle> carsinlane , double car_s);
 	void UpdatePath(Points& points, Road& myRoad, Vehicle& car, vector<vector<double>>& trajectory);
 	void GetJMTPathPoints(Points& points, vector<vector<double>>& trajectory);
-	void CreatTrajectory(Points& points, vector<vector<double>>& trajectory);
+	//void CreatTrajectory(Points& points, vector<vector<double>>& trajectory);
 	//void DecideState(Road myRoad, double lane, Vehicle& car);
 	void ApplyState();
 	LANE getLANE(double lane);

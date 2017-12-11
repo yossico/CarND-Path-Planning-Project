@@ -13,6 +13,7 @@
 #include "Points.h"
 #include "road.h"
 #include "planner.h"
+#include "math.h"
 
 const double MAX_SPEED = 20;
 
@@ -49,9 +50,6 @@ double distance(double x1, double y1, double x2, double y2)
 	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 }
 
-
-
-double lane = 1.0;
 
 int main() {
 	uWS::Hub h;
@@ -99,11 +97,6 @@ int main() {
 					double end_path_d = j[1]["end_path_d"];
 					// Sensor Fusion Data, a list of all other cars on the same side of the road.
 					vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
-
-					int prev_size = previous_path_x.size();
-
-					//debug
-					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw " << car_x << " " << car_y << " " << car_speed << " " << car_s << " " << car_d << " " << car_yaw << endl;
 
 					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw);
 				

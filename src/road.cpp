@@ -30,7 +30,7 @@ bool Road::safe_lane(Vehicle& car, LANE lane) {
 	vector<Vehicle> r_car_lane = this->get_lane_status(lane);
 	bool safe = true;
 	for (int i = 0; i < r_car_lane.size(); i++) {
-		double distance = r_car_lane[i].get_s() - car.get_s();
+		double distance = fabs(r_car_lane[i].get_s() - car.get_s());
 		if (distance > 0 && distance < SAFETY_DISTANCE) {
 			safe = false;
 		}
