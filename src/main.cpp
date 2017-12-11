@@ -281,13 +281,13 @@ int main() {
 					vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
 					double target_v = 0;
 					int prev_size = previous_path_x.size();
-
 					
-					bool too_close = false;
+
+		
 					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw " << car_x << " " << car_y << " " << car_speed << " " << car_s << " " << car_d << " " << car_yaw << endl;
 
 					
-					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw);
+					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw, car_a);
 				
 					vector<Vehicle> left_lane;
 					vector<Vehicle> center_lane;
@@ -295,11 +295,7 @@ int main() {
 
 					vector<double> next_x_vals;
 					vector<double> next_y_vals;
-					//looking at other cars
-					/*if (prev_size > 0)
-					{
-						car_s = end_path_s;
-					}*/
+		
 					for (int i = 0; i < sensor_fusion.size(); i++)
 					{
 						int id = sensor_fusion[i][0];
@@ -324,82 +320,16 @@ int main() {
 							right_lane.push_back(vehicle);
 						}			
 					}
+					myroad.update_road(left_lane, center_lane, right_lane);
 
 					int n = previous_path_x.size();
 					for (int i = 0; i < n; i++) {
 						next_x_vals.push_back(previous_path_x[i]);
 						next_y_vals.push_back(previous_path_y[i]);
 					}
-					myroad.update_road(left_lane, center_lane, right_lane);
 					vector<vector<double>> trajectory = { next_x_vals, next_y_vals };
-					
 					myPlanner.UpdatePath(myPoints, myroad, car, trajectory);
-					//myPlanner.DecideState(myroad, lane, car);
-
-					/*if (myPlanner.reducespeed)
-					{
-						//ref_velocity -= 0.224;
-						target_v = 23;
-					}
-					else if (ref_velocity < 46)
-					{
-						target_v = 46;
-						//ref_velocity += 0.224;
-					}
-					double prevlane = car.lanenum();
-					if (myPlanner.newlane == LANE::CENTER)
-						lane = 1;
-					else if (myPlanner.newlane == LANE::LEFT)
-						lane = 0;
-					else if (myPlanner.newlane == LANE::RIGHT)
-						lane = 2;
-
-
-					vector<double> ptsx;
-					vector<double> ptsy;
-					double ref_x = car_x;
-					double ref_y = car_y;
-					double ref_yaw = deg2rad(car_yaw);
-
-					/*if (prev_size < 2)  //in case we just started no ref points
-					{
-						double prev_car_x = car_x - cos(car_yaw);
-						double prev_car_y = car_y - sin(car_yaw);
-
-						ptsx.push_back(prev_car_x);
-						ptsx.push_back(car_x);
-
-						ptsy.push_back(prev_car_y);
-						ptsy.push_back(car_y);
-
-					}
-					else
-					{
-						ref_x = previous_path_x[prev_size - 1];
-						double ref_x_prev = previous_path_x[prev_size - 2];
-
-						ref_y = previous_path_y[prev_size - 1];
-						double ref_y_prev = previous_path_y[prev_size - 2];
-
-						//push back previous path points
-						ptsx.push_back(ref_x_prev);
-						ptsx.push_back(ref_x);
-						ptsy.push_back(ref_y_prev);
-						ptsy.push_back(ref_y);
-					}*/
-					//---- Adding jmt----------------------------------
-					/*double n = POINTS * 2;
-					double T = n * AT;
-					if (ref_velocity == 0)
-					{
-						ref_velocity = 0.224;
-					}
-					if (bfirst)
-					{
-						target_v = min(ref_velocity * 1.3, MAX_SPEED / 2);
-						myPlanner.end_s = { car_s + n * AT * target_v, target_v, 0 };
-						bfirst = false;
-					}
+					/*
 					myPlanner.start_s = { car_s, ref_velocity , 0};
 					myPlanner.end_s = { car_s + n * AT * target_v, target_v, 0 };
 					myPlanner.start_d = { car_d, ref_velocity, 0 };

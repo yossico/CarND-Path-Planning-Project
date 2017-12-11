@@ -195,13 +195,13 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 		}
 		mod_s = fmod(next_s, TRACK_DISTANCE);
 		mod_d = fmod(next_d, ROAD_WIDTH);
-		
-		XY = map.getXY(mod_s, mod_d);
+		cout << "t= " << t << " mod_s=" << mod_s << " mod_d= "<< mod_d<< endl;
+		XY = points.getXY(mod_s, mod_d);
 	
 		trajectory[0].push_back(XY[0]);
 		trajectory[1].push_back(XY[1]);
 	}
-	cout << "finished GetJMTPathPoints";
+	cout << "finished GetJMTPathPoints"<<endl;
 }
 
 /* APPLY ACTION */
@@ -254,7 +254,7 @@ void Planner::reduce_speed(Vehicle& car) {
 	double target_v = max(car.prev_s()[1] * 0.8, SPEED_LIMIT / 2);
 	double target_s = car.prev_s()[0] + n * AT * target_v;
 
-	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
+	this->start_s = { car.get_s(), car.get_v(), car.prev_s()[2] };
 	this->end_s = { target_s, target_v, 0.0 };
 
 	double target_d = get_lane_d(car.prev_d()[0]);
@@ -269,10 +269,10 @@ void Planner::change_lane(Vehicle& car, LANE target_lane) {
 	cout << "ACTION: reduce_speed" << endl;
 	this->n = CYCLES*POINTS;
 	this->new_points = true;
-	double target_v = car.prev_s()[1];
-	double target_s = car.prev_s()[0] + n * AT * target_v;
+	double target_v = car.get_v();
+	double target_s = car.get_s() + n * AT * target_v;
 
-	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
+	this->start_s = { car.get_s(), car.get_v(), car.prev_s()[2] };
 	this->end_s = { target_s, target_v, 0.0 };
 
 	double target_d = get_lane_d(target_lane);
@@ -280,5 +280,5 @@ void Planner::change_lane(Vehicle& car, LANE target_lane) {
 	this->start_d = { get_lane_d(car.prev_d()[0]), 0.0, 0.0 };
 	this->end_d = { target_d, 0.0, 0.0 };
 
-	this->apply_action(car, get_lane(car.prev_d()[0]), get_lane(target_d));
+	this->apply_action(car, get_lane(car.get_d()), get_lane(target_d));
 }
