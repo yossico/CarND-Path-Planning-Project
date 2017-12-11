@@ -98,6 +98,29 @@ vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 	return { start[0], start[1], .5*start[2], C.data()[0], C.data()[1], C.data()[2] };
 }
 
+void Planner::set_state(LANE current_lane, LANE target_lane) {
+	if (current_lane == target_lane) {
+		this->state = STATE::KEEP_LANE;
+	}
+	else {
+		// not equal
+		if (current_lane == LANE::LEFT) {
+			this->state = STATE::CHANGE_RIGHT;
+		}
+		else if (current_lane == LANE::RIGHT) {
+			this->state = STATE::CHANGE_LEFT;
+		}
+		else {
+			if (target_lane == LANE::LEFT) {
+				this->state = STATE::CHANGE_LEFT;
+			}
+			else {
+				this->state = STATE::CHANGE_RIGHT;
+			}
+		}
+	}
+}
+
 void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vector<double>>& trajectory) 
 {
 	//reducespeed = false;
