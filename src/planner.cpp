@@ -164,7 +164,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 			this->reduce_speed(car);
 		}
 	}
-	if (trajectory.size() < POINTS-20)
+	if (trajectory.size() < POINTS)
 		GetJMTPathPoints(points, trajectory);
 }
 
@@ -209,11 +209,11 @@ void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
 /* ACTIONS */
 void Planner::start_car(Vehicle& car) {
 	cout << "ACTION: start_car" << endl;
-	this->n = POINTS; // 4 cycles to start
+	this->n = 4*POINTS; // 4 cycles to start
 	double target_v = SPEED_LIMIT*0.5;
-	double target_s = car.get_s() + n * AT * target_v;;
+	double target_s = car.get_s() + n * AT * target_v;
 
-	this->start_s = { car.get_s(), car.get_v(), 0.0 };
+	this->start_s = { car.get_s(), car.get_v()+0.1, 0.0 };
 	this->end_s = { target_s, target_v, 0.0 };
 
 	this->start_d = {car.get_d(), 0.0, 0.0 };
@@ -224,7 +224,7 @@ void Planner::start_car(Vehicle& car) {
 
 void Planner::stay_in_lane(Vehicle& car) {
 	cout << "ACTION: stay_in_lane" << endl;
-	this->n = POINTS;
+	this->n = CYCLES*POINTS;
 	cout << "car.prev_s[1] " << car.prev_s()[1] << endl;
 	double target_v = min(car.get_v() * 1.3, SPEED_LIMIT);
 	double target_s = car.get_s() + n * AT * target_v;
@@ -244,7 +244,7 @@ void Planner::stay_in_lane(Vehicle& car) {
 
 void Planner::reduce_speed(Vehicle& car) {
 	cout << "ACTION: reduce_speed" << endl;
-	this->n = POINTS;
+	this->n = CYCLES*POINTS;
 	this->new_points = true;
 	double target_v = max(car.prev_s()[1] * 0.8, SPEED_LIMIT / 2);
 	double target_s = car.prev_s()[0] + n * AT * target_v;
@@ -262,7 +262,7 @@ void Planner::reduce_speed(Vehicle& car) {
 
 void Planner::change_lane(Vehicle& car, LANE target_lane) {
 	cout << "ACTION: reduce_speed" << endl;
-	this->n = POINTS;
+	this->n = CYCLES*POINTS;
 	this->new_points = true;
 	double target_v = car.prev_s()[1];
 	double target_s = car.prev_s()[0] + n * AT * target_v;
