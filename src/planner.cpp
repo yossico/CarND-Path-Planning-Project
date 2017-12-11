@@ -216,8 +216,8 @@ void Planner::start_car(Vehicle& car) {
 	this->start_s = { car.get_s(), car.get_v(), 0.0 };
 	this->end_s = { target_s, target_v, 0.0 };
 
-	this->start_d = { get_lane_d(car.lane()), 0.0, 0.0 };
-	this->end_d = { get_lane_d(car.lane()), 0.0, 0.0 };
+	this->start_d = {car.get_d(), 0.0, 0.0 };
+	this->end_d = { car.get_d(), 0.0, 0.0 };
 
 	this->apply_action(car, car.lane(), car.lane());
 }
