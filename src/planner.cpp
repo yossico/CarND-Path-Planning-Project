@@ -94,7 +94,7 @@ vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 
 	Eigen::MatrixXd Ai = A.inverse();
 	Eigen::MatrixXd C = Ai*B;
-
+	cout << "finished JMT" << endl;
 	return { start[0], start[1], .5*start[2], C.data()[0], C.data()[1], C.data()[2] };
 }
 
@@ -171,12 +171,12 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajectory)
 {
 	// jmt
-	double T = n * AT;
+	double T = this->n * AT;
 	cout << "JMT::S ";
 	vector<double> poly_s = this->JMT(this->start_s, this->end_s, T);
 	cout << "JMT::D ";
 	vector<double> poly_d = this->JMT(this->start_d, this->end_d, T);
-
+	cout << "n="<<n<<endl;
 	double t, next_s, next_d, mod_s, mod_d;
 	vector <double> XY;
 	for (int i = 0; i < n; i++) 
