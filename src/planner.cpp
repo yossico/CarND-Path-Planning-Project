@@ -56,7 +56,7 @@ bool Planner::safe_lane(vector<Vehicle> carsinlane, double car_s)
 	for (Vehicle other_car : carsinlane) 
 	{
 		double s_diff = fabs(other_car.s - car_s);
-		if (s_diff < GUARD_DISTANCE)
+		if (s_diff < SAFETY_DISTANCE)
 		{
 			return false;
 		}
@@ -133,10 +133,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 		{
 			cout << "start car " << endl;
 			this->start_car(car);
-			if (car.get_v() > 5)
-			{
-				this->state = STATE::KEEP_LANE;
-			}
+			this->state = STATE::KEEP_LANE;			
 		}
 		// check if blocked, i.e. car is within 40 meters
 		else
