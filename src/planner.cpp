@@ -171,7 +171,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajectory)
 {
 	// jmt
-	double T = POINTS * AT;
+	double T = n * AT;
 	cout << "JMT::S ";
 	vector<double> poly_s = this->JMT(this->start_s, this->end_s, T);
 	cout << "JMT::D ";
@@ -217,7 +217,7 @@ void Planner::start_car(Vehicle& car) {
 	this->end_s = { target_s, target_v, 0.0 };
 
 	this->start_d = {car.get_d(), 0.0, 0.0 };
-	this->end_d = { car.get_d(), 0.0, 0.0 };
+	this->end_d = { get_lane_d(car.lane()), 0.0, 0.0 };
 
 	this->apply_action(car, car.lane(), car.lane());
 }
