@@ -107,7 +107,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 	{
 		cout << "start car " << endl;
 		this->start_car(car);
-		if (car.get_v > 5)
+		if (car.get_v() > 5)
 		{
 			this->state = STATE::KEEP_LANE;
 		}
