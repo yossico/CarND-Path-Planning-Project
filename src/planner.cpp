@@ -230,14 +230,6 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 	cout << "finished GetJMTPathPoints"<<endl;
 }
 
-/* APPLY ACTION */
-void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
-	car.set_previous_s(this->end_s);
-	car.set_previous_d(this->end_d);
-	this->set_state(current_lane, target_lane);
-}
-
-
 /* FSM */
 void Planner::set_state(LANE current_lane, LANE target_lane) {
 	if (current_lane == target_lane) {
