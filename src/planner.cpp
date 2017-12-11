@@ -164,7 +164,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 			this->reduce_speed(car);
 		}
 	}
-	if (trajectory.size() < POINTS)
+	if (trajectory.size() < 3)
 		GetJMTPathPoints(points, trajectory);
 }
 
@@ -208,7 +208,7 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
 	car.set_previous_s(this->end_s);
 	car.set_previous_d(this->end_d);
-//	this->set_state(current_lane, target_lane);
+	this->set_state(current_lane, target_lane);
 }
 
 /* ACTIONS */
