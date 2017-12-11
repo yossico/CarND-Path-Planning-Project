@@ -107,16 +107,19 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 	{
 		cout << "start car " << endl;
 		this->start_car(car);
-		this->state = STATE::KEEP_LANE;
+		if (car.get_v > 5)
+		{
+			this->state = STATE::KEEP_LANE;
+		}
 	}
 	// check if blocked, i.e. car is within 40 meters
 	else 
 	{
 		if (myRoad.free_lane(car, car.lane()))
 		{ // if lane safe keep lane and set target high speed 
-			stay_in_lane(car);
-			state = STATE::KEEP_LANE;
-			cout << "Lane safe stay in lane " << lanenum <<"  "<< car.d <<endl;	
+				stay_in_lane(car);
+				state = STATE::KEEP_LANE;
+			cout << "start car: Lane safe stay in lane " << lanenum <<"  "<< car.d <<endl;	
 		}
 		else  //unsafe
 		{
@@ -161,14 +164,14 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 			this->reduce_speed(car);
 		}
 	}
-	if (trajectory.size() < 2*POINTS)
+	if (trajectory.size() < POINTS-20)
 		GetJMTPathPoints(points, trajectory);
 }
 
 void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajectory)
 {
 	// jmt
-	double T = 2*POINTS * AT;
+	double T = POINTS * AT;
 	cout << "JMT::S ";
 	vector<double> poly_s = this->JMT(this->start_s, this->end_s, T);
 	cout << "JMT::D ";
@@ -176,14 +179,12 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 
 	double t, next_s, next_d, mod_s, mod_d;
 	vector <double> XY;
-	for (int i = 0; i < n; i++) {
-
+	for (int i = 0; i < n; i++) 
+	{
 		t = AT*i;
-
 		// /* JMT */
 		// cout << "----------JMT----------" << endl;
 		// cout << "t= " << t << endl;
-
 		next_s = 0.0;
 		next_d = 0.0;
 		for (int a = 0; a < poly_s.size(); a++) {
@@ -196,7 +197,6 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 		trajectory[0].push_back(XY[0]);
 		trajectory[1].push_back(XY[1]);
 	}
-
 }
 
 /* APPLY ACTION */
@@ -209,7 +209,7 @@ void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
 /* ACTIONS */
 void Planner::start_car(Vehicle& car) {
 	cout << "ACTION: start_car" << endl;
-	this->n = 2 * POINTS; // 4 cycles to start
+	this->n = POINTS; // 4 cycles to start
 	double target_v = SPEED_LIMIT*0.5;
 	double target_s = car.get_s() + n * AT * target_v;;
 
@@ -224,7 +224,7 @@ void Planner::start_car(Vehicle& car) {
 
 void Planner::stay_in_lane(Vehicle& car) {
 	cout << "ACTION: stay_in_lane" << endl;
-	this->n = CYCLES*POINTS;
+	this->n = POINTS;
 	cout << "car.prev_s[1] " << car.prev_s()[1] << endl;
 	double target_v = min(car.get_v() * 1.3, SPEED_LIMIT);
 	double target_s = car.get_s() + n * AT * target_v;
@@ -244,7 +244,7 @@ void Planner::stay_in_lane(Vehicle& car) {
 
 void Planner::reduce_speed(Vehicle& car) {
 	cout << "ACTION: reduce_speed" << endl;
-	this->n = CYCLES*POINTS;
+	this->n = POINTS;
 	this->new_points = true;
 	double target_v = max(car.prev_s()[1] * 0.8, SPEED_LIMIT / 2);
 	double target_s = car.prev_s()[0] + n * AT * target_v;
@@ -262,7 +262,7 @@ void Planner::reduce_speed(Vehicle& car) {
 
 void Planner::change_lane(Vehicle& car, LANE target_lane) {
 	cout << "ACTION: reduce_speed" << endl;
-	this->n = CYCLES*POINTS;
+	this->n = POINTS;
 	this->new_points = true;
 	double target_v = car.prev_s()[1];
 	double target_s = car.prev_s()[0] + n * AT * target_v;
