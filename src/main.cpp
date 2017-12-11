@@ -49,26 +49,6 @@ double distance(double x1, double y1, double x2, double y2)
 	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 }
 
-int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y)
-{
-
-	int closestWaypoint = ClosestWaypoint(x,y,maps_x,maps_y);
-
-	double map_x = maps_x[closestWaypoint];
-	double map_y = maps_y[closestWaypoint];
-
-	double heading = atan2( (map_y-y),(map_x-x) );
-
-	double angle = abs(theta-heading);
-
-	if(angle > pi()/4)
-	{
-		closestWaypoint++;
-	}
-
-	return closestWaypoint;
-
-}
 
 
 double lane = 1.0;
@@ -119,13 +99,12 @@ int main() {
 					double end_path_d = j[1]["end_path_d"];
 					// Sensor Fusion Data, a list of all other cars on the same side of the road.
 					vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
-					double target_v = 0;
+
 					int prev_size = previous_path_x.size();
 
 					//debug
 					cout << "car_x, car_y, car_speed, car_s, car_d, car_yaw " << car_x << " " << car_y << " " << car_speed << " " << car_s << " " << car_d << " " << car_yaw << endl;
 
-					
 					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw);
 				
 					vector<Vehicle> left_lane;
@@ -133,7 +112,8 @@ int main() {
 					vector<Vehicle> right_lane;
 					vector<double> next_x_vals;
 					vector<double> next_y_vals;
-		
+					
+					//update all cars on the road
 					for (int i = 0; i < sensor_fusion.size(); i++)
 					{
 						int id = sensor_fusion[i][0];
@@ -160,6 +140,7 @@ int main() {
 					}
 					myroad.update_road(left_lane, center_lane, right_lane);
 
+					//get previous path points
 					int n = previous_path_x.size();
 					for (int i = 0; i < n; i++) {
 						next_x_vals.push_back(previous_path_x[i]);
