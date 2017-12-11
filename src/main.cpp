@@ -145,6 +145,7 @@ int main() {
 					for (int i = 0; i < n; i++) {
 						next_x_vals.push_back(previous_path_x[i]);
 						next_y_vals.push_back(previous_path_y[i]);
+						if (i<5)
 						cout << "prev path X Y " << previous_path_x[i] << " " << previous_path_y[i] << endl;
 					}
 
