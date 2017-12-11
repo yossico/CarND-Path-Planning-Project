@@ -18,6 +18,7 @@ const double TRACK_DISTANCE = 6945.554; //m
 const double ROAD_WIDTH = 12.0; //m
 const double SPEED_LIMIT = 19.0; //m/s
 
+
 enum class LANE { LEFT, CENTER, RIGHT };
 
 enum class STATE { START, KEEP_LANE, CHANGE_LEFT, CHANGE_RIGHT };
