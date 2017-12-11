@@ -262,12 +262,12 @@ void Planner::stay_in_lane(Vehicle& car) {
 	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
 	this->end_s = { target_s, target_v, 0.0 };
 
-	double target_d = get_lane_d(car.get_d()[0]);
+	double target_d = get_lane_d(car.get_d());
 
-	this->start_d = { get_lane_d(car.get_d()[0]), 0.0, 0.0 };
+	this->start_d = { get_lane_d(car.get_d()), 0.0, 0.0 };
 	this->end_d = { target_d, 0.0, 0.0 };
 
-	this->apply_action(car, get_lane(car.prev_d()[0]), get_lane(car.prev_d()[0]));
+	this->apply_action(car, get_lane(car.get_d()), get_lane(car.get_d()));
 }
 
 void Planner::reduce_speed(Vehicle& car) {
