@@ -161,7 +161,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 			this->reduce_speed(car);
 		}
 	}
-	if (trajectory.size() < POINTS)
+	if (trajectory.size() < 2*POINTS)
 		GetJMTPathPoints(points, trajectory);
 }
 
@@ -192,9 +192,7 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 		}
 		mod_s = fmod(next_s, TRACK_DISTANCE);
 		mod_d = fmod(next_d, ROAD_WIDTH);
-
-		XY = points.getXY(mod_s, mod_d);
-
+	
 		trajectory[0].push_back(XY[0]);
 		trajectory[1].push_back(XY[1]);
 	}
@@ -227,11 +225,12 @@ void Planner::start_car(Vehicle& car) {
 void Planner::stay_in_lane(Vehicle& car) {
 	cout << "ACTION: stay_in_lane" << endl;
 	this->n = CYCLES*POINTS;
-	double target_v = min(car.prev_s()[1] * 1.3, SPEED_LIMIT);
-	double target_s = car.prev_s()[0] + n * AT * target_v;
+	cout << "car.prev_s[1] " << car.prev_s()[1] << endl;
+	double target_v = min(car.get_v() * 1.3, SPEED_LIMIT);
+	double target_s = car.get_s() + n * AT * target_v;
 
-	this->start_s = { car.prev_s()[0], car.prev_s()[1], car.prev_s()[2] };
-	cout << "start_s S V A" << car.prev_s()[0] << " " << car.prev_s()[1] << " " << car.prev_s()[2] << endl;
+	this->start_s = { car.get_s(), car.get_v(), car.prev_s()[2] };
+	cout << "start_s S V A" << start_s[0] << " " << start_s[1] << " " << start_s[2] << endl;
 	this->end_s = { target_s, target_v, 0.0 };
 	cout << "end_s S V A" << target_s << " " << target_v << " " << 0 << endl;
 
