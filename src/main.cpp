@@ -145,8 +145,8 @@ int main() {
 					for (int i = 0; i < n; i++) {
 						next_x_vals.push_back(previous_path_x[i]);
 						next_y_vals.push_back(previous_path_y[i]);
-						if (i<5)
-						cout << "prev path X Y " << previous_path_x[i] << " " << previous_path_y[i] << endl;
+						//if (i<5)
+						//cout << "prev path X Y " << previous_path_x[i] << " " << previous_path_y[i] << endl;
 					}
 
 					// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
