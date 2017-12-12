@@ -4,7 +4,7 @@
 
 #include <string>
 #include <vector>
-#include <cmath>
+//#include <cmath>
 #include "defs.h"
 #include "vehicle.h"
 
