@@ -119,8 +119,9 @@ void Planner::set_state(LANE current_lane, LANE target_lane) {
 	}
 }
 
-void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vector<double>>& trajectory) 
+void Planner::UpdatePath(Points& points, Road& road, Vehicle& car,  vector<vector<double>>& trajectory) 
 {
+	/*
 	//reducespeed = false;
 	LANE currlane = car.lane();
 	double lanenum = car.lanenum();	
@@ -184,8 +185,56 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 			state = STATE::KEEP_LANE;
 			this->reduce_speed(car);
 		}
+	}*/
+	int current_points = trajectory[0].size();
+	this->new_points = false;
+
+	if (current_points < POINTS) {
+		this->new_points = true;
+
+		// first trajectory
+		if (this->state == STATE::START) {
+
+			this->start_car(car);
+
+		}
+		else if (this->state == STATE::KEEP_LANE) {
+
+			// FREE LANE
+			if (road.safe_lane(car, car.lane())) {
+				this->stay_in_lane(car);
+				// LANE CHANGE NEEDED
+			}
+			else {
+				LANE target_lane = road.lane_change_available(car);
+				if (target_lane == car.lane()) {
+					// not possible -> reduce speed
+					this->reduce_speed(car);
+				}
+				else {
+					this->change_lane(car, target_lane);
+				}
+			}
+		}
+		else {
+			LANE new_lane = get_lane(car.prev_d()[0]);
+			if (road.safe_lane(car, new_lane)) {
+				this->stay_in_lane(car);
+			}
+			else {
+				// not possible -> reduce speed
+				this->reduce_speed(car);
+			}
+		}
 	}
-	GetJMTPathPoints(points, trajectory);
+
+	// have we generated new points?
+	if (this->new_points) {
+		this->GetJMTPathPoints(points, trajectory); //(map, trajectory);
+	}
+
+
+	//GetJMTPathPoints(points, trajectory);
 }
 
 void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajectory)
