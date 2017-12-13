@@ -1,5 +1,3 @@
-#include "defs.h"
-#include "Points.h"
 #include "planner.h"
 
 using namespace std;
@@ -238,7 +236,7 @@ void Planner::start_car(Vehicle& car) {
 	cout << "ACTION: start_car" << endl;
 	this->n = 4 * POINTS; // 4 cycles to start
 	double target_v = SPEED_LIMIT*0.5;
-	double target_s = car.get_s() + n * AT * target_v;;
+	double target_s = car.get_s() + n * AT * target_v;
 
 	this->start_s = { car.get_s(), car.get_v(), 0.0 };
 	this->end_s = { target_s, target_v, 0.0 };

@@ -4,10 +4,10 @@
 
 #include <string>
 #include <vector>
-//#include <cmath>
-#include "defs.h"
-#include "vehicle.h"
+#include <cmath>
 
+#include "vehicle.h"
+#include "defs.h"
 
 using namespace std;
 

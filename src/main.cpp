@@ -5,15 +5,15 @@
 #include <iostream>
 #include <thread>
 #include <vector>
-#include "Eigen-3.3/Eigen/Core"
-#include "Eigen-3.3/Eigen/QR"
+//#include "Eigen-3.3/Eigen/Core"
+//#include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
-#include "spline.h"
+#//include "spline.h"
 #include "defs.h"
-#include "Points.h"
+#include "vehicle.h"
 #include "road.h"
+#include "Points.h"
 #include "planner.h"
-#include "math.h"
 
 const double MAX_SPEED = 20;
 

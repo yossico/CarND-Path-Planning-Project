@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "defs.h"
-#include "vehicle.h"
+#include "Points.h"
 #include "road.h"
 
 using namespace std;
