@@ -5,30 +5,21 @@
 #include <iostream>
 #include <thread>
 #include <vector>
-//#include "Eigen-3.3/Eigen/Core"
-//#include "Eigen-3.3/Eigen/QR"
+#include <math.h>
+
 #include "json.hpp"
-#//include "spline.h"
+
 #include "defs.h"
+#include "Points.h"
 #include "vehicle.h"
 #include "road.h"
-#include "Points.h"
 #include "planner.h"
 
-const double MAX_SPEED = 20;
+//const double MAX_SPEED = 19;
 
 using namespace std;
-using namespace tk;
 
-// for convenience
 using json = nlohmann::json;
-
-// For converting back and forth between radians and degrees.
-constexpr double pi() { return M_PI; }
-double deg2rad(double x) { return x * pi() / 180; }
-double rad2deg(double x) { return x * 180 / pi(); }
-const double LANEWIDTH = 4;
-double ref_velocity = 0;
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -45,15 +36,9 @@ string hasData(string s) {
   return "";
 }
 
-double distance(double x1, double y1, double x2, double y2)
-{
-	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-}
-
-
 int main() {
 	uWS::Hub h;
-	bool bfirst = true;
+
 	string map_file_ = "../data/highway_map.csv";
 	Road myroad;
 	Planner myPlanner;
@@ -96,7 +81,7 @@ int main() {
 					double end_path_s = j[1]["end_path_s"];
 					double end_path_d = j[1]["end_path_d"];
 					// Sensor Fusion Data, a list of all other cars on the same side of the road.
-					vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
+					auto sensor_fusion = j[1]["sensor_fusion"];
 
 					car.update(car_x, car_y, car_speed, car_s, car_d, car_yaw);
 				
@@ -137,9 +122,7 @@ int main() {
 					int n = previous_path_x.size();
 					for (int i = 0; i < n; i++) {
 						next_x_vals.push_back(previous_path_x[i]);
-						next_y_vals.push_back(previous_path_y[i]);
-						//if (i<5)
-						//cout << "prev path X Y " << previous_path_x[i] << " " << previous_path_y[i] << endl;
+						next_y_vals.push_back(previous_path_y[i]);						
 					}
 
 					// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds

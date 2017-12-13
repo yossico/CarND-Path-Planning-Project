@@ -1,3 +1,5 @@
+#ifndef POINTS_H
+#define POINTS_H
 #include "Points.h"
 
 using namespace std;
@@ -55,3 +57,6 @@ vector<double> Points::getXY(double s, double d){
 
   return {next_x, next_y};
 }
+
+
+#endif
