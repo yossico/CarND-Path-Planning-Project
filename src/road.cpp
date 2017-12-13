@@ -43,7 +43,7 @@ bool Road::free_lane(Vehicle& car, LANE lane) {
 	bool is_free = true;
 	for (int i = 0; i < target_lane.size(); i++) {
 		double distance = fabs(target_lane[i].get_s() - car.get_s());
-		if (distance < SAFETY_DISTANCE) {
+		if (distance < GUARD_DISTANCE) {
 			is_free = false;
 		}
 	}
