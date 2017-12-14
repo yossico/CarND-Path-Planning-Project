@@ -17,6 +17,13 @@
 
 //const double MAX_SPEED = 19;
 
+// For converting back and forth between radians and degrees.
+constexpr double pi() { return M_PI; }
+double deg2rad(double x) { return x * pi() / 180; }
+double rad2deg(double x) { return x * 180 / pi(); }
+const double LANEWIDTH = 4;
+double ref_velocity = 0;
+
 using namespace std;
 
 using json = nlohmann::json;

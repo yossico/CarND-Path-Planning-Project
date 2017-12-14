@@ -96,7 +96,7 @@ vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 	return { start[0], start[1], .5*start[2], C.data()[0], C.data()[1], C.data()[2] };
 }
 
-void Planner::set_state(LANE current_lane, LANE target_lane) {
+/*void Planner::set_state(LANE current_lane, LANE target_lane) {
 	if (current_lane == target_lane) {
 		this->state = STATE::KEEP_LANE;
 	}
@@ -117,12 +117,11 @@ void Planner::set_state(LANE current_lane, LANE target_lane) {
 			}
 		}
 	}
-}
+}*/
 
-void Planner::UpdatePath(Points& points, Road& road, Vehicle& car,  vector<vector<double>>& trajectory) 
-{
-	/*
-	//reducespeed = false;
+void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vector<double>>& trajectory) 
+{	
+	
 	LANE currlane = car.lane();
 	double lanenum = car.lanenum();	
 	if (trajectory[0].size() > POINTS)
@@ -132,15 +131,15 @@ void Planner::UpdatePath(Points& points, Road& road, Vehicle& car,  vector<vecto
 	cout << "traj size  " << trajectory[0].size() << endl;
 	cout << "car_speed, car_s, car_d " << " " << car.get_v() << " " << car.get_s() << " " << car.get_d() <<  endl;
 	if (this->state == STATE::START)
-	{
+	{   
 		this->start_car(car);
 	}
-	// check if blocked, car is within 40 meters
 	else
 	{
 		if (myRoad.free_lane(car, car.lane()))
 		{ // if lane safe keep lane and set target high speed 
-			stay_in_lane(car);			
+			stay_in_lane(car);	
+			state = STATE::KEEP_LANE;
 		}
 		else  //unsafe
 		{
@@ -185,7 +184,7 @@ void Planner::UpdatePath(Points& points, Road& road, Vehicle& car,  vector<vecto
 			state = STATE::KEEP_LANE;
 			this->reduce_speed(car);
 		}
-	}*/
+	}/*
 	int current_points = trajectory[0].size();
 	this->new_points = false;
 
@@ -226,15 +225,11 @@ void Planner::UpdatePath(Points& points, Road& road, Vehicle& car,  vector<vecto
 				this->reduce_speed(car);
 			}
 		}
-	}
-
-	// have we generated new points?
+	}*/
 	if (this->new_points) {
 		this->GetJMTPathPoints(points, trajectory); //(map, trajectory);
 	}
 
-
-	//GetJMTPathPoints(points, trajectory);
 }
 
 void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajectory)
@@ -277,7 +272,7 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
 	car.set_previous_s(this->end_s);
 	car.set_previous_d(this->end_d);
-	this->set_state(current_lane, target_lane);
+	//this->set_state(current_lane, target_lane);
 }
 
 /* ACTIONS */
