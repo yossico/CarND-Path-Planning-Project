@@ -124,8 +124,6 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 	
 	//LANE currlane = car.lane();
 	//double lanenum = car.lanenum();	
-	cout << "traj size  " << trajectory[0].size() << endl;
-	cout << "car_speed, car_s, car_d " << " " << car.get_v() << " " << car.get_s() << " " << car.get_d() << endl;
 	/*if (trajectory[0].size() > POINTS)
 	{
 		return;
@@ -189,7 +187,8 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 
 	if (current_points < POINTS) {
 		this->new_points = true;
-
+		cout << "traj size  " << trajectory[0].size() << endl;
+		cout << "car_speed, car_s, car_d " << " " << car.get_v() << " " << car.get_s() << " " << car.get_d() << endl;
 		// first trajectory
 		if (this->state == STATE::START) {
 
