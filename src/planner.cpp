@@ -96,7 +96,7 @@ vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 	return { start[0], start[1], .5*start[2], C.data()[0], C.data()[1], C.data()[2] };
 }
 
-/*void Planner::set_state(LANE current_lane, LANE target_lane) {
+void Planner::set_state(LANE current_lane, LANE target_lane) {
 	if (current_lane == target_lane) {
 		this->state = STATE::KEEP_LANE;
 	}
@@ -117,19 +117,19 @@ vector<double> Planner::JMT(vector<double> start, vector <double> end, double T)
 			}
 		}
 	}
-}*/
+}
 
 void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vector<double>>& trajectory) 
 {	
 	
-	LANE currlane = car.lane();
-	double lanenum = car.lanenum();	
-	if (trajectory[0].size() > POINTS)
+	//LANE currlane = car.lane();
+	//double lanenum = car.lanenum();	
+	cout << "traj size  " << trajectory[0].size() << endl;
+	cout << "car_speed, car_s, car_d " << " " << car.get_v() << " " << car.get_s() << " " << car.get_d() << endl;
+	/*if (trajectory[0].size() > POINTS)
 	{
 		return;
 	}
-	cout << "traj size  " << trajectory[0].size() << endl;
-	cout << "car_speed, car_s, car_d " << " " << car.get_v() << " " << car.get_s() << " " << car.get_d() <<  endl;
 	if (this->state == STATE::START)
 	{   
 		this->start_car(car);
@@ -170,21 +170,20 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 			{
 				cout << "CL RIGHT" << endl;
 				state = STATE::CHANGE_RIGHT;
-				change_lane(car, LANE::RIGHT);
-				//state = STATE::CHANGE_RIGHT; //newlane = LANE::RIGHT;
+				change_lane(car, LANE::RIGHT);				
 			}
 			else if (myRoad.free_lane(car, LANE::LEFT))
 			{
 				cout << "CL LEFT" << endl;
 				state = STATE::CHANGE_RIGHT;
 				change_lane(car, LANE::LEFT);
-				return;
+				
 			}
 			cout << "lane unsafe couldnt change lanes reduce speed" << endl;
 			state = STATE::KEEP_LANE;
 			this->reduce_speed(car);
 		}
-	}/*
+	}*/
 	int current_points = trajectory[0].size();
 	this->new_points = false;
 
@@ -200,12 +199,12 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 		else if (this->state == STATE::KEEP_LANE) {
 
 			// FREE LANE
-			if (road.safe_lane(car, car.lane())) {
+			if (myRoad.safe_lane(car, car.lane())) {
 				this->stay_in_lane(car);
 				// LANE CHANGE NEEDED
 			}
 			else {
-				LANE target_lane = road.lane_change_available(car);
+				LANE target_lane = myRoad.lane_change_available(car);
 				if (target_lane == car.lane()) {
 					// not possible -> reduce speed
 					this->reduce_speed(car);
@@ -217,7 +216,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 		}
 		else {
 			LANE new_lane = get_lane(car.prev_d()[0]);
-			if (road.safe_lane(car, new_lane)) {
+			if (myRoad.safe_lane(car, new_lane)) {
 				this->stay_in_lane(car);
 			}
 			else {
@@ -225,7 +224,7 @@ void Planner::UpdatePath(Points& points, Road& myRoad, Vehicle& car,  vector<vec
 				this->reduce_speed(car);
 			}
 		}
-	}*/
+	}
 	if (this->new_points) {
 		this->GetJMTPathPoints(points, trajectory); //(map, trajectory);
 	}
@@ -272,7 +271,7 @@ void Planner::GetJMTPathPoints(Points& points, vector<vector<double>>& trajector
 void Planner::apply_action(Vehicle& car, LANE current_lane, LANE target_lane) {
 	car.set_previous_s(this->end_s);
 	car.set_previous_d(this->end_d);
-	//this->set_state(current_lane, target_lane);
+	this->set_state(current_lane, target_lane);
 }
 
 /* ACTIONS */
